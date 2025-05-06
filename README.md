@@ -5,7 +5,7 @@
   - Participation Rules: $2,000 in USDC
 - Starts February 24, 2025 20:00 UTC
 - Ends March 17, 2025 20:00 UTC
-- This contest is part of the [Aquarius Audit + Certora Formal Verification competition](https://github.com/Certora/aquarius-cantina-fv)
+- This contest is part of the [Aquarius Audit + Certora Formal Verification competition](TODO: insert link)
 
 ## Introduction
 
@@ -43,7 +43,7 @@ Note that some setup work and basic properties are already being provided by the
   - [Import](https://github.com/new/import) this repository into a new private repository at the contest's commencement.
   - Conduct verifications on the master branch.
     - You can work in a separate branch and merge changes at the end if you prefer.  
-  - Grant access to `teryanarmen` and `nd-certora` for judging.
+  - Grant access to `teryanarmen` and `srunquist-certora` for judging.
 - **Support Channels**:
   - For tool-related issues, send a detailed message with a job link in `help-desk` channel in Discord. Remove the anonymousKey component from the link if you wish to limit viewing to Certora employees. 
   - For FV contest questions, use the relevant community verification channel in Discord.
@@ -80,7 +80,7 @@ Note that some setup work and basic properties are already being provided by the
 
 ## Submission Guidelines
 - **Submission**: 
-  - Submit your work by sharing the private repo you cloned with `teryanarmen` and `nd-certora` on github.
+  - Submit your work by sharing the private repo you cloned with `teryanarmen` and `srunquist-certora` on github.
   - Properties for real bugs will be submitted as github issues on the same private repo and must contain a link to the normal bug submission through Code4rena marked with relevant severity (L/M/H).
   - Submissions will not be public and will only be shared with the committee by sharing your private repo on github.
 
