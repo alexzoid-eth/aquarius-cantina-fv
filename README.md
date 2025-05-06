@@ -110,19 +110,12 @@ Note that some setup work and basic properties are already being provided by the
   - Focus on creating valuable and secure rules that can potentially be added to the protocol CI.
   - Avoid submitting rules that simply copy the contract's code or provide little value in terms of security verification.
 - **Real bug submissions**:
-  - Real bug submissions must include:
-    - A link to the  accepted underlying issue submitted through Code4rena.
+  - Real bug submissions **must** include:
+    - A link to the  accepted underlying issue submitted through Cantina.
     - Explanation of the property that finds the bug.
-    - A link to a violated run of the property must be included.
+    - A link to a violated run of the property.
     - A proposed solution as a diff between the buggy and fixed code.
     - A verified run of the property on the fixed version must be included.
-
-## How to reference bugs submitted to [the Code4rena audit](XXX) 
-1. On [your `Findings` screen](https://code4rena.com/findings), locate the submission you want.
-1. Right-click on the link and select `Copy link address`.
-1. Paste the URL into the related Github issue on your private clone which describes the rule they have for the bug. The URL structure should look similar to this: `XXX` 
-   - Alternately, you can just include the UID at the end of the URL string (e.g. `XXX`).
-
 
 ## Evaluation Process
 - **Preliminary Results**: Initial findings will be announced along with the mutations used for evaluation. A google sheet showing which mutants were caught by which participants will be shared. Participants will have a 72-hour period for review and submit corrections in case a certain mutant is marked as not caught but they actually caught it.
