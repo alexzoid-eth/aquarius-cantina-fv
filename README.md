@@ -64,7 +64,7 @@ Note that some setup work and basic properties are already being provided by the
   - Note that you might first need to run `chmod +x certora_build.py` before you run `cd confs`
 
 ## Incentives
-- 20,000k of the total pool is allocated for FV.
+- 20,000 USDC of the total pool is allocated for FV.
 - FV pool is split into three categories
   - **Participation**: 10% of pool awarded for properties identifying public mutants.    
   - **Real Bugs**: 20% of pool awarded for properties uncovering actual bugs.
