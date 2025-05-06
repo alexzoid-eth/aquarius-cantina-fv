@@ -72,9 +72,9 @@ Note that some setup work and basic properties are already being provided by the
 - If no properties are accepted for real bugs, the pool will be rebalanced to 90% coverage and 10% participation.
 - Mutants are mutated versions of the original code which create vulnerabilities. These mutants are used to gauge verified properties' coverage of the original code.
   - Public mutants used for evaluating participation rewards can be found in `fees_collector/mutations`.
-- Participation and coverage reward can be calculated as follows
-    - Each mutant is worth $0.9^{n-1}$ points where $n$ is the number of participants that caught the mutant.
-    - If we let $P$ be the total FV pool and $T$ be the sum of all mutants' points, we can define each participant's reward as $ \frac{P}{T} \cdot \frac{0.9^{n-1}}{n} $
+- Participation and coverage reward can be calculated as follows  
+  - Each mutant is worth $0.9^{n - 1}$ points where $n$ is the number of participants that caught the mutant.  
+  - If we let $P$ be the total FV pool and $T$ be the sum of all mutants' points, we can define each participant's reward as $ \frac{P}{T} \cdot \frac{0.9^{n - 1}}{n} $
 - Real bug rewards will be awarded for properties that are violated because of the bug. Only the bug submitter can submit a spec for that bug. 10, 3, or 1 points will be allocated based on the severity of the bug (H/M/L). The severity of bugs accepted will match the audit contest rules. Real bug properties should have a contract in scope as the main file. It's possible to have a bug in a different contract caught by a rule for the main contract. 
 
 
