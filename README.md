@@ -24,7 +24,7 @@ Note that some setup work and basic properties are already being provided by the
 
 ## Overview
 - 20,000 USDC of this contest will be allocated for FV.
-- Conventional bug submission, issue judgment, and all reward distribution will be managed by Code4rena.
+- Conventional bug submission, issue judgment, and all reward distribution will be managed by Cantina.
 - FV component is unique as participants are incentivized to implement and verify high coverage properties using the Certora Prover.
 - The judging of FV is conducted by Certora, with different submissions, incentives, and judging processes compared to the standard contest. These processes are explained in this document.
 
@@ -81,7 +81,7 @@ Note that some setup work and basic properties are already being provided by the
 ## Submission Guidelines
 - **Submission**: 
   - Submit your work by sharing the private repo you cloned with `teryanarmen` and `srunquist-certora` on github.
-  - Properties for real bugs will be submitted as github issues on the same private repo and must contain a link to the normal bug submission through Code4rena marked with relevant severity (L/M/H).
+  - Properties for real bugs will be submitted as github issues on the same private repo and must contain a link to the normal bug submission through Cantina marked with relevant severity (L/M/H).
   - Submissions will not be public and will only be shared with the committee by sharing your private repo on github.
 
 - **Team Participation**:
