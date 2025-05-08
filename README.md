@@ -3,9 +3,9 @@
   - Real Bug Rules: $4,000 in USDC
   - Coverage Rules: $14,000 in USDC
   - Participation Rules: $2,000 in USDC
-- Starts February 24, 2025 20:00 UTC
-- Ends March 17, 2025 20:00 UTC
-- This contest is part of the [Aquarius Audit + Certora Formal Verification competition](TODO: insert link)
+- Starts May 7, 2025 13:30 UTC
+- Ends June 18, 2025 20:00 UTC
+- This contest is part of the [Aquarius Audit + Certora Formal Verification competition](https://cantina.xyz/competitions/990ce947-05da-443e-b397-be38a65f0bff)
 
 ## Introduction
 
