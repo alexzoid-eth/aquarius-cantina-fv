@@ -20,7 +20,7 @@ Note that some setup work and basic properties are already being provided by the
 | All files in the [fees_collector](https://github.com/Certora/aquarius-cantina-fv/tree/master/fees_collector) crate |
 | All files in the [access_control](https://github.com/Certora/aquarius-cantina-fv/tree/master/access_control) crate |
 
-
+**_NOTE:_** Small changes to the source code _are_ allowed when needed. You can for example use features like so: `#[cfg(feature = "certora")]` to enable conditional compilation. Other similar changes may also be acceptable. We will inspect each submission to make sure changes to the source code if any, are reasonable and do not affect the result of verification in undesirable ways.
 
 ## Overview
 - 20,000 USDC of this contest will be allocated for FV.
