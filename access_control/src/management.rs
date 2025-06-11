@@ -5,6 +5,9 @@ use crate::storage::StorageTrait;
 use soroban_sdk::{panic_with_error, Address, Vec};
 use utils::bump::bump_instance;
 
+#[cfg(feature = "certora")]
+use crate::certora_specs::base::ghost_state::GhostState;
+
 pub trait SingleAddressManagementTrait {
     fn get_role_safe(&self, role: &Role) -> Option<Address>;
     fn get_role(&self, role: &Role) -> Address;
@@ -24,7 +27,25 @@ impl SingleAddressManagementTrait for AccessControl {
 
         let key = self.get_key(role);
         bump_instance(&self.0);
-        self.0.storage().instance().get(&key)
+        let value = self.0.storage().instance().get(&key);
+
+        #[cfg(feature = "certora")]
+        {
+            let role_clone = role.clone();
+            let value_clone = value.clone();
+            GhostState::update(&self.0, |state| {
+                match role_clone {
+                    Role::Admin => state.admin = value_clone,
+                    Role::EmergencyAdmin => state.emergency_admin = value_clone,
+                    Role::RewardsAdmin => state.rewards_admin = value_clone,
+                    Role::OperationsAdmin => state.operations_admin = value_clone,
+                    Role::PauseAdmin => state.pause_admin = value_clone,
+                    _ => {}
+                }
+            });
+        }
+        
+        value
     }
 
     fn get_role(&self, role: &Role) -> Address {
@@ -57,6 +78,22 @@ impl SingleAddressManagementTrait for AccessControl {
         let key = self.get_key(role);
         bump_instance(&self.0);
         self.0.storage().instance().set(&key, address);
+
+        #[cfg(feature = "certora")]
+        {
+            let addr_clone = address.clone();
+            let role_clone = role.clone();
+            GhostState::update(&self.0, |state| {
+                match role_clone {
+                    Role::Admin => state.admin = Some(addr_clone),
+                    Role::EmergencyAdmin => state.emergency_admin = Some(addr_clone),
+                    Role::RewardsAdmin => state.rewards_admin = Some(addr_clone),
+                    Role::OperationsAdmin => state.operations_admin = Some(addr_clone),
+                    Role::PauseAdmin => state.pause_admin = Some(addr_clone),
+                    _ => {}
+                }
+            });
+        }
     }
 }
 
@@ -68,11 +105,25 @@ impl MultipleAddressesManagementTrait for AccessControl {
 
         let key = self.get_key(role);
         bump_instance(&self.0);
-        self.0
+        let value = self.0
             .storage()
             .instance()
             .get(&key)
-            .unwrap_or(Vec::new(&self.0))
+            .unwrap_or(Vec::new(&self.0));
+
+        #[cfg(feature = "certora")]
+        {
+            let role_clone = role.clone();
+            let value_clone = value.clone();
+            GhostState::update(&self.0, |state| {
+                match role_clone {
+                    Role::EmergencyPauseAdmin => state.emergency_pause_admins = value_clone,
+                    _ => {}
+                }
+            });
+        }
+
+        value
     }
 
     // no delay-related code as we require it only for single addresses roles
@@ -84,5 +135,17 @@ impl MultipleAddressesManagementTrait for AccessControl {
         let key = self.get_key(role);
         bump_instance(&self.0);
         self.0.storage().instance().set(&key, addresses);
+
+        #[cfg(feature = "certora")]
+        {
+            let addrs_clone = addresses.clone();
+            let role_clone = role.clone();
+            GhostState::update(&self.0, |state| {
+                match role_clone {
+                    Role::EmergencyPauseAdmin => state.emergency_pause_admins = addrs_clone,
+                    _ => {}
+                }
+            });
+        }
     }
 }

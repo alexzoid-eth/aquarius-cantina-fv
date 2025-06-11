@@ -1315,6 +1315,7 @@ dependencies = [
  "cvlr-soroban",
  "cvlr-soroban-derive",
  "cvlr-soroban-macros",
+ "paste",
  "soroban-sdk",
  "upgrade",
 ]
