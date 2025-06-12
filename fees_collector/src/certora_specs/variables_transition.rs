@@ -90,7 +90,7 @@ pub fn variables_transition_upgrade_deadline_lifecycle(
     cvlr_assert!(valid);
 }
 
-// Check mutual exclusion of ownership transfers
+// Check mutual exclusion of ownership transfers and upgrades
 pub fn variables_transition_mutual_exclusion(
     _e: &Env,
     _params: &ParametricParams,
@@ -100,12 +100,19 @@ pub fn variables_transition_mutual_exclusion(
     call_fn();
     let after = GhostState::read();
     
-    let valid = if after.admin_transfer_deadline != 0 && after.em_admin_transfer_deadline != 0 {
-        // Both must have been non-zero before (no new commits while one is active)
-        before.admin_transfer_deadline != 0 && before.em_admin_transfer_deadline != 0
-    } else {
-        true
-    };
+    // Count active deadlines before and after
+    let before_active = (if before.admin_transfer_deadline != 0 { 1 } else { 0 }) +
+                       (if before.em_admin_transfer_deadline != 0 { 1 } else { 0 }) +
+                       (if before.upgrade_deadline != 0 { 1 } else { 0 });
+    
+    let after_active = (if after.admin_transfer_deadline != 0 { 1 } else { 0 }) +
+                      (if after.em_admin_transfer_deadline != 0 { 1 } else { 0 }) +
+                      (if after.upgrade_deadline != 0 { 1 } else { 0 });
+    
+    // Mutual exclusion: at most one can be active at a time
+    let valid = after_active <= 1 && 
+                // If multiple are active after, they must have been active before (no new commits)
+                (after_active <= before_active || after_active <= 1);
     
     cvlr_assert!(valid);
 }

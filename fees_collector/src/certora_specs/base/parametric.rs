@@ -417,67 +417,6 @@ macro_rules! parametric_rule {
                 $f(&e, &params, call_fn);
             }
 
-            // h_commit_transfer_ownership
-            #[rule]
-            pub fn [< $f _h_commit_transfer_ownership >](
-                e: Env,
-                role_name: Symbol,
-                future_address: Address
-            ) {
-                setup_fv!(e);
-                
-                let params = ParametricParams::new(&e)
-                    .with_role(role_name.clone())
-                    .with_new_address(future_address.clone());
-                
-                let call_fn = || { 
-                    ghost_log_details();
-                    FeesCollector::h_commit_transfer_ownership(e.clone(), role_name.clone(), future_address.clone());
-                    ghost_log_details();
-                };
-                
-                $f(&e, &params, call_fn);
-            }
-
-            // h_apply_transfer_ownership
-            #[rule]
-            pub fn [< $f _h_apply_transfer_ownership >](
-                e: Env,
-                role_name: Symbol
-            ) {
-                setup_fv!(e);
-                
-                let params = ParametricParams::new(&e)
-                    .with_role(role_name.clone());
-                
-                let call_fn = || { 
-                    ghost_log_details();
-                    let _result = FeesCollector::h_apply_transfer_ownership(e.clone(), role_name.clone());
-                    ghost_log_details();
-                };
-                
-                $f(&e, &params, call_fn);
-            }
-
-            // h_revert_transfer_ownership
-            #[rule]
-            pub fn [< $f _h_revert_transfer_ownership >](
-                e: Env,
-                role_name: Symbol
-            ) {
-                setup_fv!(e);
-                
-                let params = ParametricParams::new(&e)
-                    .with_role(role_name.clone());
-                
-                let call_fn = || { 
-                    ghost_log_details();
-                    FeesCollector::h_revert_transfer_ownership(e.clone(), role_name.clone());
-                    ghost_log_details();
-                };
-                
-                $f(&e, &params, call_fn);
-            }
 
             // h_get_transfer_ownership_dl
             #[rule]
