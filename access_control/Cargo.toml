@@ -10,12 +10,13 @@ crate-type = ["rlib"]
 doctest = false
 
 [features]
-certora = []
+certora = ["ghost_state"]
 
 [dependencies]
 soroban-sdk = { workspace = true }
 utils = { workspace = true }
 liquidity-pool-validation-errors = { workspace = true }
+ghost_state = { workspace = true, optional = true }
 
 [dev-dependencies]
 utils = { workspace = true, features = ["testutils"] }

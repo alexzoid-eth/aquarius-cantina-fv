@@ -1,6 +1,9 @@
+// Variable transition properties
+
 use soroban_sdk::Env;
 use cvlr::cvlr_assert;
-use crate::certora_specs::base::{ParametricParams, SystemState};
+use crate::certora_specs::base::ParametricParams;
+use ghost_state::GhostState;
 
 // Check deadline lifecycle: 0 -> timestamp -> 0
 fn check_deadline_lifecycle(
@@ -30,9 +33,9 @@ pub fn variables_transition_admin_deadline_lifecycle(
     _params: &ParametricParams,
     call_fn: impl FnOnce()
 ) {
-    let before = SystemState::read(e);
+    let before = GhostState::read();
     call_fn();
-    let after = SystemState::read(e);
+    let after = GhostState::read();
     
     let valid = check_deadline_lifecycle(
         e,
@@ -51,9 +54,9 @@ pub fn variables_transition_em_admin_deadline_lifecycle(
     _params: &ParametricParams,
     call_fn: impl FnOnce()
 ) {
-    let before = SystemState::read(e);
+    let before = GhostState::read();
     call_fn();
-    let after = SystemState::read(e);
+    let after = GhostState::read();
     
     let valid = check_deadline_lifecycle(
         e,
@@ -72,9 +75,9 @@ pub fn variables_transition_upgrade_deadline_lifecycle(
     _params: &ParametricParams,
     call_fn: impl FnOnce()
 ) {
-    let before = SystemState::read(e);
+    let before = GhostState::read();
     call_fn();
-    let after = SystemState::read(e);
+    let after = GhostState::read();
     
     let valid = check_deadline_lifecycle(
         e,
@@ -89,13 +92,13 @@ pub fn variables_transition_upgrade_deadline_lifecycle(
 
 // Check mutual exclusion of ownership transfers
 pub fn variables_transition_mutual_exclusion(
-    e: &Env,
+    _e: &Env,
     _params: &ParametricParams,
     call_fn: impl FnOnce()
 ) {
-    let before = SystemState::read(e);
+    let before = GhostState::read();
     call_fn();
-    let after = SystemState::read(e);
+    let after = GhostState::read();
     
     let valid = if after.admin_transfer_deadline != 0 && after.em_admin_transfer_deadline != 0 {
         // Both must have been non-zero before (no new commits while one is active)
@@ -113,9 +116,9 @@ pub fn variables_transition_admin_role(
     _params: &ParametricParams,
     call_fn: impl FnOnce()
 ) {
-    let before = SystemState::read(e);
+    let before = GhostState::read();
     call_fn();
-    let after = SystemState::read(e);
+    let after = GhostState::read();
     
     let valid = if before.admin != after.admin {
         if before.admin.is_none() {
@@ -140,9 +143,9 @@ pub fn variables_transition_emergency_admin_role(
     _params: &ParametricParams,
     call_fn: impl FnOnce()
 ) {
-    let before = SystemState::read(e);
+    let before = GhostState::read();
     call_fn();
-    let after = SystemState::read(e);
+    let after = GhostState::read();
     
     let valid = if before.emergency_admin != after.emergency_admin {
         if before.emergency_admin.is_some() {
@@ -162,13 +165,13 @@ pub fn variables_transition_emergency_admin_role(
 
 // Check future admin value consistency
 pub fn variables_transition_future_admin_consistency(
-    e: &Env,
+    _e: &Env,
     _params: &ParametricParams,
     call_fn: impl FnOnce()
 ) {
-    let before = SystemState::read(e);
+    let before = GhostState::read();
     call_fn();
-    let after = SystemState::read(e);
+    let after = GhostState::read();
     
     let valid = if before.admin_transfer_deadline == after.admin_transfer_deadline && 
                    after.admin_transfer_deadline != 0 {
@@ -183,13 +186,13 @@ pub fn variables_transition_future_admin_consistency(
 
 // Check future emergency admin value consistency
 pub fn variables_transition_future_em_admin_consistency(
-    e: &Env,
+    _e: &Env,
     _params: &ParametricParams,
     call_fn: impl FnOnce()
 ) {
-    let before = SystemState::read(e);
+    let before = GhostState::read();
     call_fn();
-    let after = SystemState::read(e);
+    let after = GhostState::read();
     
     let valid = if before.em_admin_transfer_deadline == after.em_admin_transfer_deadline && 
                    after.em_admin_transfer_deadline != 0 {
@@ -204,13 +207,13 @@ pub fn variables_transition_future_em_admin_consistency(
 
 // Check future wasm value consistency
 pub fn variables_transition_future_wasm_consistency(
-    e: &Env,
+    _e: &Env,
     _params: &ParametricParams,
     call_fn: impl FnOnce()
 ) {
-    let before = SystemState::read(e);
+    let before = GhostState::read();
     call_fn();
-    let after = SystemState::read(e);
+    let after = GhostState::read();
     
     let valid = if before.upgrade_deadline == after.upgrade_deadline && 
                    after.upgrade_deadline != 0 {
@@ -229,9 +232,9 @@ pub fn variables_transition_emergency_mode_behavior(
     _params: &ParametricParams,
     call_fn: impl FnOnce()
 ) {
-    let before = SystemState::read(e);
+    let before = GhostState::read();
     call_fn();
-    let after = SystemState::read(e);
+    let after = GhostState::read();
     
     let valid = if before.emergency_mode && 
                    before.upgrade_deadline != 0 && 
@@ -252,13 +255,13 @@ pub fn variables_transition_emergency_mode_behavior(
 
 // Check that initial admin can only be set once
 pub fn variables_transition_admin_init_once(
-    e: &Env,
+    _e: &Env,
     _params: &ParametricParams,
     call_fn: impl FnOnce()
 ) {
-    let before = SystemState::read(e);
+    let before = GhostState::read();
     call_fn();
-    let after = SystemState::read(e);
+    let after = GhostState::read();
     
     // If admin was already set, it can only change through transfer process
     let valid = if before.admin.is_some() && before.admin != after.admin {

@@ -1,3 +1,5 @@
+// Sanity (reachability in at least one execution path) properties
+
 use soroban_sdk::Env;
 use cvlr::cvlr_satisfy;
 use crate::certora_specs::base::ParametricParams;

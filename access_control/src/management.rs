@@ -6,7 +6,7 @@ use soroban_sdk::{panic_with_error, Address, Vec};
 use utils::bump::bump_instance;
 
 #[cfg(feature = "certora")]
-use crate::certora_specs::base::ghost_state::GhostState;
+use ghost_state::GhostState;
 
 pub trait SingleAddressManagementTrait {
     fn get_role_safe(&self, role: &Role) -> Option<Address>;
@@ -33,7 +33,7 @@ impl SingleAddressManagementTrait for AccessControl {
         {
             let role_clone = role.clone();
             let value_clone = value.clone();
-            GhostState::update(&self.0, |state| {
+            GhostState::update(|state| {
                 match role_clone {
                     Role::Admin => state.admin = value_clone,
                     Role::EmergencyAdmin => state.emergency_admin = value_clone,
@@ -83,7 +83,7 @@ impl SingleAddressManagementTrait for AccessControl {
         {
             let addr_clone = address.clone();
             let role_clone = role.clone();
-            GhostState::update(&self.0, |state| {
+            GhostState::update(|state| {
                 match role_clone {
                     Role::Admin => state.admin = Some(addr_clone),
                     Role::EmergencyAdmin => state.emergency_admin = Some(addr_clone),
@@ -115,7 +115,7 @@ impl MultipleAddressesManagementTrait for AccessControl {
         {
             let role_clone = role.clone();
             let value_clone = value.clone();
-            GhostState::update(&self.0, |state| {
+            GhostState::update(|state| {
                 match role_clone {
                     Role::EmergencyPauseAdmin => state.emergency_pause_admins = value_clone,
                     _ => {}
@@ -140,7 +140,7 @@ impl MultipleAddressesManagementTrait for AccessControl {
         {
             let addrs_clone = addresses.clone();
             let role_clone = role.clone();
-            GhostState::update(&self.0, |state| {
+            GhostState::update(|state| {
                 match role_clone {
                     Role::EmergencyPauseAdmin => state.emergency_pause_admins = addrs_clone,
                     _ => {}

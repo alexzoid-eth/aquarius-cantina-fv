@@ -1,3 +1,5 @@
+// This extends FeesCollector with harness functions from access_control
+
 use soroban_sdk::{contractimpl, Address, Env, Symbol, Vec};
 use crate::contract::{FeesCollector, FeesCollectorArgs};
 use crate::FeesCollectorClient;
@@ -10,7 +12,6 @@ use access_control::{
     utils::*,
 };
 
-// This extends FeesCollector with harness functions for testing access_control
 #[contractimpl]
 impl FeesCollector {
 

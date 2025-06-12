@@ -8,7 +8,7 @@ use utils::bump::bump_instance;
 use utils::storage_errors::StorageError;
 
 #[cfg(feature = "certora")]
-use crate::certora_specs::base::ghost_state::GhostState;
+use ghost_state::GhostState;
 
 pub trait TransferOwnershipTrait {
     fn get_transfer_ownership_deadline(&self, role: &Role) -> u64;
@@ -28,7 +28,7 @@ impl TransferOwnershipTrait for AccessControl {
         #[cfg(feature = "certora")]
         {
             let role_clone = role.clone();
-            GhostState::update(&self.0, |state| {
+            GhostState::update(|state| {
                 match role_clone {
                     Role::Admin => state.admin_transfer_deadline = value,
                     Role::EmergencyAdmin => state.em_admin_transfer_deadline = value,
@@ -48,7 +48,7 @@ impl TransferOwnershipTrait for AccessControl {
         #[cfg(feature = "certora")]
         {
             let role_clone = role.clone();
-            GhostState::update(&self.0, |state| {
+            GhostState::update(|state| {
                 match role_clone {
                     Role::Admin => state.admin_transfer_deadline = value,
                     Role::EmergencyAdmin => state.em_admin_transfer_deadline = value,
@@ -63,13 +63,13 @@ impl TransferOwnershipTrait for AccessControl {
             panic_with_error!(&self.0, AccessControlError::BadRoleUsage);
         }
 
-        match self.0.storage().instance().get(&self.get_future_key(role)) {
+        match self.0.storage().instance().get::<crate::storage::DataKey, Address>(&self.get_future_key(role)) {
             Some(v) => { 
                 #[cfg(feature = "certora")]
                 {
                     let role_clone = role.clone();
                     let v_clone = v.clone();
-                    GhostState::update(&self.0, |state| {
+                    GhostState::update(|state| {
                         match role_clone {
                             Role::Admin => state.future_admin = Some(v_clone),
                             Role::EmergencyAdmin => state.future_em_admin = Some(v_clone),
@@ -105,7 +105,7 @@ impl TransferOwnershipTrait for AccessControl {
         {
             let addr_clone = future_address.clone();
             let role_clone = role.clone();
-            GhostState::update(&self.0, |state| {
+            GhostState::update(|state| {
                 match role_clone {
                     Role::Admin => state.future_admin = Some(addr_clone),
                     Role::EmergencyAdmin => state.future_em_admin = Some(addr_clone),
@@ -140,7 +140,7 @@ impl TransferOwnershipTrait for AccessControl {
         {
             let addr_clone = future_address.clone();
             let role_clone = role.clone();
-            GhostState::update(&self.0, |state| {
+            GhostState::update(|state| {
                 match role_clone {
                     Role::Admin => {
                         state.admin = Some(addr_clone);

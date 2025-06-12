@@ -2,7 +2,7 @@ use soroban_sdk::{contracttype, BytesN, Env};
 use utils::bump::bump_instance;
 
 #[cfg(feature = "certora")]
-use crate::certora_specs::base::ghost_state::GhostState;
+use ghost_state::GhostState;
 
 #[derive(Clone)]
 #[contracttype]
@@ -21,7 +21,7 @@ pub fn get_upgrade_deadline(e: &Env) -> u64 {
 
     #[cfg(feature = "certora")]
     {
-        GhostState::update(e, |state| {
+        GhostState::update(|state| {
             state.upgrade_deadline = value;
         });
     }
@@ -35,7 +35,7 @@ pub fn put_upgrade_deadline(e: &Env, value: &u64) {
 
     #[cfg(feature = "certora")]
     {
-        GhostState::update(e, |state| {
+        GhostState::update(|state| {
             state.upgrade_deadline = *value;
         });
     }
@@ -48,7 +48,7 @@ pub fn get_future_wasm(e: &Env) -> Option<BytesN<32>> {
     #[cfg(feature = "certora")]
     {
         let value_clone = value.clone();
-        GhostState::update(e, |state| {
+        GhostState::update(|state| {
             state.future_wasm = value_clone;
         });
     }
@@ -63,7 +63,7 @@ pub fn put_future_wasm(e: &Env, value: &BytesN<32>) {
     #[cfg(feature = "certora")]
     {
         let value_clone = value.clone();
-        GhostState::update(e, |state| {
+        GhostState::update(|state| {
             state.future_wasm = Some(value_clone);
         });
     }

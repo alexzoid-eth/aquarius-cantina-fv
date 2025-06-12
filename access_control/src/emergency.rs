@@ -3,7 +3,7 @@ use soroban_sdk::Env;
 use utils::bump::bump_instance;
 
 #[cfg(feature = "certora")]
-use crate::certora_specs::base::ghost_state::GhostState;
+use ghost_state::GhostState;
 
 pub fn get_emergency_mode(e: &Env) -> bool {
     bump_instance(e);
@@ -14,7 +14,7 @@ pub fn get_emergency_mode(e: &Env) -> bool {
     
     #[cfg(feature = "certora")]
     {
-        GhostState::update(e, |state| {
+        GhostState::update(|state| {
             state.emergency_mode = value;
         });
     }
@@ -28,7 +28,7 @@ pub fn set_emergency_mode(e: &Env, value: &bool) {
     
     #[cfg(feature = "certora")]
     {
-        GhostState::update(e, |state| {
+        GhostState::update(|state| {
             state.emergency_mode = *value;
         });
     }

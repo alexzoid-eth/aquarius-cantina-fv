@@ -4,7 +4,7 @@ pub(crate) mod sanity;
 pub(crate) mod variables_transition;
 
 use crate::certora_specs::base::ParametricParams;
-use crate::certora_specs::base::log_state::log_state_details;
+use crate::certora_specs::base::ghost_log::ghost_log_details;
 
 use crate::contract::FeesCollector;
 use crate::interface::AdminInterface;
@@ -15,7 +15,7 @@ use soroban_sdk::{Address, BytesN, Env, Symbol, Vec};
 
 use cvlr_soroban_derive::rule;
 
-use crate::{init_verification, parametric_rule};
+use crate::{setup_fv, parametric_rule};
 
 use crate::certora_specs::sanity::sanity;
 use crate::certora_specs::variables_transition::{
@@ -35,7 +35,7 @@ use crate::certora_specs::variables_transition::{
 // Generate all sanity rules
 parametric_rule!(sanity);
 
-// Generate parametric rules for each variables transition check
+// Generate rules in parametric style for each variables transition property
 parametric_rule!(variables_transition_admin_deadline_lifecycle);
 parametric_rule!(variables_transition_em_admin_deadline_lifecycle);
 parametric_rule!(variables_transition_upgrade_deadline_lifecycle);
