@@ -16,9 +16,9 @@ macro_rules! parametric_rule {
                     .with_caller(account.clone());
                 
                 let call_fn = || { 
-                    ghost_log_details();
-                    FeesCollector::init_admin(e.clone(), account.clone());
-                    ghost_log_details();
+                    ghost_log_all();
+                    FeesCollector::init_admin(e.clone(), account);
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);
@@ -32,9 +32,9 @@ macro_rules! parametric_rule {
                 let params = ParametricParams::new(&e);
                 
                 let call_fn = || { 
-                    ghost_log_details();
+                    ghost_log_all();
                     let _result = FeesCollector::version();
-                    ghost_log_details();
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);
@@ -53,9 +53,9 @@ macro_rules! parametric_rule {
                     .with_caller(admin.clone());
                 
                 let call_fn = || { 
-                    ghost_log_details();
-                    FeesCollector::commit_upgrade(e.clone(), admin.clone(), new_wasm_hash.clone());
-                    ghost_log_details();
+                    ghost_log_all();
+                    FeesCollector::commit_upgrade(e.clone(), admin, new_wasm_hash);
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);
@@ -73,9 +73,9 @@ macro_rules! parametric_rule {
                     .with_caller(admin.clone());
                 
                 let call_fn = || { 
-                    ghost_log_details();
-                    let _result = FeesCollector::apply_upgrade(e.clone(), admin.clone());
-                    ghost_log_details();
+                    ghost_log_all();
+                    let _result = FeesCollector::apply_upgrade(e.clone(), admin);
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);
@@ -93,9 +93,9 @@ macro_rules! parametric_rule {
                     .with_caller(admin.clone());
                 
                 let call_fn = || { 
-                    ghost_log_details();
-                    FeesCollector::revert_upgrade(e.clone(), admin.clone());
-                    ghost_log_details();
+                    ghost_log_all();
+                    FeesCollector::revert_upgrade(e.clone(), admin);
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);
@@ -115,9 +115,9 @@ macro_rules! parametric_rule {
                     .with_value(value);
                 
                 let call_fn = || { 
-                    ghost_log_details();
-                    FeesCollector::set_emergency_mode(e.clone(), emergency_admin.clone(), value);
-                    ghost_log_details();
+                    ghost_log_all();
+                    FeesCollector::set_emergency_mode(e.clone(), emergency_admin, value);
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);
@@ -131,9 +131,9 @@ macro_rules! parametric_rule {
                 let params = ParametricParams::new(&e);
                 
                 let call_fn = || { 
-                    ghost_log_details();
+                    ghost_log_all();
                     let _result = FeesCollector::get_emergency_mode(e.clone());
-                    ghost_log_details();
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);
@@ -155,9 +155,9 @@ macro_rules! parametric_rule {
                     .with_new_address(new_address.clone());
                 
                 let call_fn = || { 
-                    ghost_log_details();
-                    FeesCollector::commit_transfer_ownership(e.clone(), admin.clone(), role_name.clone(), new_address.clone());
-                    ghost_log_details();
+                    ghost_log_all();
+                    FeesCollector::commit_transfer_ownership(e.clone(), admin, role_name, new_address);
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);
@@ -177,9 +177,9 @@ macro_rules! parametric_rule {
                     .with_role(role_name.clone());
                 
                 let call_fn = || { 
-                    ghost_log_details();
-                    FeesCollector::apply_transfer_ownership(e.clone(), admin.clone(), role_name.clone());
-                    ghost_log_details();
+                    ghost_log_all();
+                    FeesCollector::apply_transfer_ownership(e.clone(), admin, role_name);
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);
@@ -199,9 +199,9 @@ macro_rules! parametric_rule {
                     .with_role(role_name.clone());
                 
                 let call_fn = || { 
-                    ghost_log_details();
-                    FeesCollector::revert_transfer_ownership(e.clone(), admin.clone(), role_name.clone());
-                    ghost_log_details();
+                    ghost_log_all();
+                    FeesCollector::revert_transfer_ownership(e.clone(), admin, role_name);
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);
@@ -219,9 +219,9 @@ macro_rules! parametric_rule {
                     .with_role(role_name.clone());
                 
                 let call_fn = || { 
-                    ghost_log_details();
-                    let _result = FeesCollector::get_future_address(e.clone(), role_name.clone());
-                    ghost_log_details();
+                    ghost_log_all();
+                    let _result = FeesCollector::get_future_address(e.clone(), role_name);
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);
@@ -253,17 +253,17 @@ macro_rules! parametric_rule {
                     .with_emergency_pause_admins(emergency_pause_admins.clone());
                 
                 let call_fn = || { 
-                    ghost_log_details();
+                    ghost_log_all();
                     FeesCollector::h_init_all_roles(
                         e.clone(), 
-                        admin.clone(), 
-                        emergency_admin.clone(),
-                        rewards_admin.clone(),
-                        operations_admin.clone(),
-                        pause_admin.clone(),
-                        emergency_pause_admins.clone()
+                        admin, 
+                        emergency_admin,
+                        rewards_admin,
+                        operations_admin,
+                        pause_admin,
+                        emergency_pause_admins
                     );
-                    ghost_log_details();
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);
@@ -281,9 +281,9 @@ macro_rules! parametric_rule {
                     .with_role(role_name.clone());
                 
                 let call_fn = || { 
-                    ghost_log_details();
-                    let _result = FeesCollector::h_get_role_safe(e.clone(), role_name.clone());
-                    ghost_log_details();
+                    ghost_log_all();
+                    let _result = FeesCollector::h_get_role_safe(e.clone(), role_name);
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);
@@ -301,9 +301,9 @@ macro_rules! parametric_rule {
                     .with_role(role_name.clone());
                 
                 let call_fn = || { 
-                    ghost_log_details();
-                    let _result = FeesCollector::h_get_role(e.clone(), role_name.clone());
-                    ghost_log_details();
+                    ghost_log_all();
+                    let _result = FeesCollector::h_get_role(e.clone(), role_name);
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);
@@ -323,9 +323,9 @@ macro_rules! parametric_rule {
                     .with_new_address(address.clone());
                 
                 let call_fn = || { 
-                    ghost_log_details();
-                    FeesCollector::h_set_role_address(e.clone(), role_name.clone(), address.clone());
-                    ghost_log_details();
+                    ghost_log_all();
+                    FeesCollector::h_set_role_address(e.clone(), role_name, address);
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);
@@ -343,9 +343,9 @@ macro_rules! parametric_rule {
                     .with_role(role_name.clone());
                 
                 let call_fn = || { 
-                    ghost_log_details();
-                    let _result = FeesCollector::h_get_role_addresses(e.clone(), role_name.clone());
-                    ghost_log_details();
+                    ghost_log_all();
+                    let _result = FeesCollector::h_get_role_addresses(e.clone(), role_name);
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);
@@ -365,9 +365,9 @@ macro_rules! parametric_rule {
                     .with_addresses(addresses.clone());
                 
                 let call_fn = || { 
-                    ghost_log_details();
-                    FeesCollector::h_set_role_addresses(e.clone(), role_name.clone(), addresses.clone());
-                    ghost_log_details();
+                    ghost_log_all();
+                    FeesCollector::h_set_role_addresses(e.clone(), role_name, addresses);
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);
@@ -387,9 +387,9 @@ macro_rules! parametric_rule {
                     .with_role(role_name.clone());
                 
                 let call_fn = || { 
-                    ghost_log_details();
-                    let _result = FeesCollector::h_address_has_role(e.clone(), address.clone(), role_name.clone());
-                    ghost_log_details();
+                    ghost_log_all();
+                    let _result = FeesCollector::h_address_has_role(e.clone(), address, role_name);
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);
@@ -409,9 +409,9 @@ macro_rules! parametric_rule {
                     .with_role(role_name.clone());
                 
                 let call_fn = || { 
-                    ghost_log_details();
-                    FeesCollector::h_assert_address_has_role(e.clone(), address.clone(), role_name.clone());
-                    ghost_log_details();
+                    ghost_log_all();
+                    FeesCollector::h_assert_address_has_role(e.clone(), address, role_name);
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);
@@ -430,9 +430,9 @@ macro_rules! parametric_rule {
                     .with_role(role_name.clone());
                 
                 let call_fn = || { 
-                    ghost_log_details();
-                    let _result = FeesCollector::h_get_transfer_ownership_dl(e.clone(), role_name.clone());
-                    ghost_log_details();
+                    ghost_log_all();
+                    let _result = FeesCollector::h_get_transfer_ownership_dl(e.clone(), role_name);
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);
@@ -450,9 +450,9 @@ macro_rules! parametric_rule {
                     .with_role(role_name.clone());
                 
                 let call_fn = || { 
-                    ghost_log_details();
-                    let _result = FeesCollector::h_get_future_address(e.clone(), role_name.clone());
-                    ghost_log_details();
+                    ghost_log_all();
+                    let _result = FeesCollector::h_get_future_address(e.clone(), role_name);
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);
@@ -470,9 +470,9 @@ macro_rules! parametric_rule {
                     .with_caller(address.clone());
                 
                 let call_fn = || { 
-                    ghost_log_details();
-                    FeesCollector::h_require_rewards_admin_or_owner(e.clone(), address.clone());
-                    ghost_log_details();
+                    ghost_log_all();
+                    FeesCollector::h_require_rewards_admin_or_owner(e.clone(), address);
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);
@@ -490,9 +490,9 @@ macro_rules! parametric_rule {
                     .with_caller(address.clone());
                 
                 let call_fn = || { 
-                    ghost_log_details();
-                    FeesCollector::h_require_operations_admin_owner(e.clone(), address.clone());
-                    ghost_log_details();
+                    ghost_log_all();
+                    FeesCollector::h_require_operations_admin_owner(e.clone(), address);
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);
@@ -510,9 +510,9 @@ macro_rules! parametric_rule {
                     .with_caller(address.clone());
                 
                 let call_fn = || { 
-                    ghost_log_details();
-                    FeesCollector::h_require_pause_emergency_admin(e.clone(), address.clone());
-                    ghost_log_details();
+                    ghost_log_all();
+                    FeesCollector::h_require_pause_emergency_admin(e.clone(), address);
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);
@@ -530,9 +530,9 @@ macro_rules! parametric_rule {
                     .with_caller(address.clone());
                 
                 let call_fn = || { 
-                    ghost_log_details();
-                    FeesCollector::h_require_pause_admin_or_owner(e.clone(), address.clone());
-                    ghost_log_details();
+                    ghost_log_all();
+                    FeesCollector::h_require_pause_admin_or_owner(e.clone(), address);
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);
@@ -550,9 +550,9 @@ macro_rules! parametric_rule {
                     .with_value(value);
                 
                 let call_fn = || { 
-                    ghost_log_details();
+                    ghost_log_all();
                     FeesCollector::h_set_emergency_mode_direct(e.clone(), value);
-                    ghost_log_details();
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);
@@ -566,9 +566,9 @@ macro_rules! parametric_rule {
                 let params = ParametricParams::new(&e);
                 
                 let call_fn = || { 
-                    ghost_log_details();
+                    ghost_log_all();
                     let _result = FeesCollector::h_get_emergency_mode_direct(e.clone());
-                    ghost_log_details();
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);
@@ -586,9 +586,9 @@ macro_rules! parametric_rule {
                     .with_role(role_name.clone());
                 
                 let call_fn = || { 
-                    ghost_log_details();
-                    let _result = FeesCollector::h_role_has_many_users(e.clone(), role_name.clone());
-                    ghost_log_details();
+                    ghost_log_all();
+                    let _result = FeesCollector::h_role_has_many_users(e.clone(), role_name);
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);
@@ -606,9 +606,9 @@ macro_rules! parametric_rule {
                     .with_role(role_name.clone());
                 
                 let call_fn = || { 
-                    ghost_log_details();
-                    let _result = FeesCollector::h_role_is_transfer_delayed(e.clone(), role_name.clone());
-                    ghost_log_details();
+                    ghost_log_all();
+                    let _result = FeesCollector::h_role_is_transfer_delayed(e.clone(), role_name);
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);
@@ -632,15 +632,15 @@ macro_rules! parametric_rule {
                     .with_emergency_pause_admins(emergency_pause_admins.clone());
                 
                 let call_fn = || { 
-                    ghost_log_details();
+                    ghost_log_all();
                     FeesCollector::h_set_privileged_addrs(
                         e.clone(),
-                        rewards_admin.clone(),
-                        operations_admin.clone(),
-                        pause_admin.clone(),
-                        emergency_pause_admins.clone()
+                        rewards_admin,
+                        operations_admin,
+                        pause_admin,
+                        emergency_pause_admins
                     );
-                    ghost_log_details();
+                    ghost_log_all();
                 };
                 
                 $f(&e, &params, call_fn);

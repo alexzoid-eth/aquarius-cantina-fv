@@ -9,7 +9,7 @@ use access_control::emergency::get_emergency_mode;
 use upgrade::storage::{get_upgrade_deadline, get_future_wasm};
 use ghost_state::GhostState;
 
-pub fn initialize_ghost_state(env: &Env) {
+pub fn initialize_ghost_state_from_storage(env: &Env) {
     let access_control: AccessControl = AccessControl::new(env);
     
     let admin = access_control.get_role_safe(&Role::Admin);

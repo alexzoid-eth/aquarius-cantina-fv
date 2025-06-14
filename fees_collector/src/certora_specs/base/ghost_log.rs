@@ -1,62 +1,76 @@
 // Log GhostState fields
 
-use soroban_sdk::{Address, BytesN};
 use cvlr::clog;
 use ghost_state::GhostState;
 
-pub fn log_deadline(value: u64, _name: &str) {
-    clog!(value);
-}
-
-pub fn log_address_option(addr: &Option<Address>) {
-    match addr {
-        Some(_address) => {
-            let val = 1;
-            clog!(val);
-        }
-        None => {
-            let val = 0;
-            clog!(val);
-        }
-    }
-}
-
-pub fn log_wasm_option(wasm: &Option<BytesN<32>>) {
-    match wasm {
-        Some(_) => {
-            let val = 1;
-            clog!(val);
-        }
-        None => {
-            let val = 0;
-            clog!(val);
-        }
-    }
-}
-
-pub fn log_emergency_pause_admins_count(count: u32) {
-    clog!(count);
-}
-
-pub fn ghost_log_details() {
+pub fn ghost_log_all() {
     let state = GhostState::read();
     
-    log_address_option(&state.admin);
-    log_address_option(&state.emergency_admin);
-    log_address_option(&state.rewards_admin);
-    log_address_option(&state.operations_admin);
-    log_address_option(&state.pause_admin);
+    // Role addresses - log as 1 if Some, 0 if None
+    let admin_exists = match &state.admin {
+        Some(_) => 1u32,
+        None => 0u32,
+    };
+    clog!(admin_exists);
     
-    log_emergency_pause_admins_count(state.emergency_pause_admins.len());
+    let emergency_admin_exists = match &state.emergency_admin {
+        Some(_) => 1u32,
+        None => 0u32,
+    };
+    clog!(emergency_admin_exists);
     
-    log_deadline(state.admin_transfer_deadline, "admin_transfer_deadline");
-    log_deadline(state.em_admin_transfer_deadline, "em_admin_transfer_deadline");
+    let rewards_admin_exists = match &state.rewards_admin {
+        Some(_) => 1u32,
+        None => 0u32,
+    };
+    clog!(rewards_admin_exists);
     
-    log_address_option(&state.future_admin);
-    log_address_option(&state.future_em_admin);
+    let operations_admin_exists = match &state.operations_admin {
+        Some(_) => 1u32,
+        None => 0u32,
+    };
+    clog!(operations_admin_exists);
     
-    clog!(state.emergency_mode);
+    let pause_admin_exists = match &state.pause_admin {
+        Some(_) => 1u32,
+        None => 0u32,
+    };
+    clog!(pause_admin_exists);
     
-    log_deadline(state.upgrade_deadline, "upgrade_deadline");
-    log_wasm_option(&state.future_wasm);
+    let emergency_pause_admins_count = state.emergency_pause_admins.len();
+    clog!(emergency_pause_admins_count);
+    
+    // Transfer deadlines
+    let admin_transfer_deadline = state.admin_transfer_deadline;
+    clog!(admin_transfer_deadline);
+    
+    let em_admin_transfer_deadline = state.em_admin_transfer_deadline;
+    clog!(em_admin_transfer_deadline);
+    
+    // Future addresses
+    let future_admin_exists = match &state.future_admin {
+        Some(_) => 1u32,
+        None => 0u32,
+    };
+    clog!(future_admin_exists);
+    
+    let future_em_admin_exists = match &state.future_em_admin {
+        Some(_) => 1u32,
+        None => 0u32,
+    };
+    clog!(future_em_admin_exists);
+    
+    // Emergency mode
+    let emergency_mode = state.emergency_mode;
+    clog!(emergency_mode);
+    
+    // Upgrade state
+    let upgrade_deadline = state.upgrade_deadline;
+    clog!(upgrade_deadline);
+    
+    let future_wasm_exists = match &state.future_wasm {
+        Some(_) => 1u32,
+        None => 0u32,
+    };
+    clog!(future_wasm_exists);
 }

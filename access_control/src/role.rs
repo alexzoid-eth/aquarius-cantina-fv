@@ -11,8 +11,9 @@ pub enum Role {
     EmergencyPauseAdmin,
 }
 
+// Certora: `pub(crate)` -> `pub`
+#[cfg(feature = "certora")]
 impl Role {
-    // Certora: `pub(crate)` -> `pub`
     pub fn has_many_users(&self) -> bool {
         match self {
             Role::Admin => false,
@@ -24,8 +25,32 @@ impl Role {
         }
     }
 
-    // Certora: `pub(crate)` -> `pub`
     pub fn is_transfer_delayed(&self) -> bool {
+        match self {
+            Role::Admin => true,
+            Role::EmergencyAdmin => true,
+            Role::RewardsAdmin => false,
+            Role::OperationsAdmin => false,
+            Role::PauseAdmin => false,
+            Role::EmergencyPauseAdmin => false,
+        }
+    }
+}
+
+#[cfg(not(feature = "certora"))]
+impl Role {
+    pub(crate) fn has_many_users(&self) -> bool {
+        match self {
+            Role::Admin => false,
+            Role::EmergencyAdmin => false,
+            Role::RewardsAdmin => false,
+            Role::OperationsAdmin => false,
+            Role::PauseAdmin => false,
+            Role::EmergencyPauseAdmin => true,
+        }
+    }
+
+    pub(crate) fn is_transfer_delayed(&self) -> bool {
         match self {
             Role::Admin => true,
             Role::EmergencyAdmin => true,

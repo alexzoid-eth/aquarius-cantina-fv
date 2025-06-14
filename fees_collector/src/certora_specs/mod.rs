@@ -4,7 +4,7 @@ pub(crate) mod sanity;
 pub(crate) mod variables_transition;
 
 use crate::certora_specs::base::ParametricParams;
-use crate::certora_specs::base::ghost_log::ghost_log_details;
+use crate::certora_specs::base::ghost_log::ghost_log_all;
 
 use crate::contract::FeesCollector;
 use crate::interface::AdminInterface;

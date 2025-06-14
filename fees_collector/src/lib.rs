@@ -9,6 +9,5 @@ mod testutils;
 
 pub use crate::contract::{FeesCollector, FeesCollectorClient};
 
-
 #[cfg(feature = "certora")]
 mod certora_specs;
