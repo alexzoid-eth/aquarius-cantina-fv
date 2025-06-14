@@ -14,7 +14,7 @@ fn check_deadline_lifecycle(
     future_after: Option<impl Clone>,
 ) -> bool {
     if deadline_before == 0 && deadline_after != 0 {
-        // Transition from 0 to non-zero (commit)
+        // Transitwion from 0 to non-zero (commit)
         deadline_after > e.ledger().timestamp() && future_after.is_some()
     } else if deadline_before != 0 && deadline_after == 0 {
         // Transition from non-zero to 0 (apply or revert)
