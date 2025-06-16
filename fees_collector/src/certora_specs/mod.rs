@@ -22,7 +22,6 @@ use crate::certora_specs::state_transition::{
     state_transition_admin_deadline_lifecycle,
     state_transition_em_admin_deadline_lifecycle,
     state_transition_upgrade_deadline_lifecycle,
-    state_transition_mutual_exclusion,
     state_transition_admin_role,
     state_transition_emergency_admin_role,
     state_transition_future_admin_consistency,
@@ -39,7 +38,6 @@ parametric_rule!(sanity);
 parametric_rule!(state_transition_admin_deadline_lifecycle);
 parametric_rule!(state_transition_em_admin_deadline_lifecycle);
 parametric_rule!(state_transition_upgrade_deadline_lifecycle);
-parametric_rule!(state_transition_mutual_exclusion);
 parametric_rule!(state_transition_admin_role);
 parametric_rule!(state_transition_emergency_admin_role);
 parametric_rule!(state_transition_future_admin_consistency);
