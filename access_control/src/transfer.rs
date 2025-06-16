@@ -144,13 +144,9 @@ impl TransferOwnershipTrait for AccessControl {
                 match role_clone {
                     Role::Admin => {
                         state.admin = Some(addr_clone);
-                        state.future_admin = None;
-                        state.admin_transfer_deadline = 0;
                     },
                     Role::EmergencyAdmin => {
                         state.emergency_admin = Some(addr_clone);
-                        state.future_em_admin = None;
-                        state.em_admin_transfer_deadline = 0;
                     },
                     _ => {}
                 }
