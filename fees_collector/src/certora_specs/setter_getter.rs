@@ -1,25 +1,24 @@
 use soroban_sdk::{Env, Address, BytesN, Symbol, Vec};
 use cvlr::asserts::cvlr_assert;
-use cvlr::clog;
 use cvlr_soroban_derive::rule;
 use access_control::constants::ADMIN_ACTIONS_DELAY;
 
 use crate::contract::FeesCollector;
 use crate::interface::AdminInterface;
-use crate::certora_specs::base::ghost_log::ghost_log_all;
 use access_control::interface::TransferableContract;
 use upgrade::interface::UpgradeableContract;
 
 #[rule]
-pub fn setter_getter_emergency_mode(e: Env, emergency_admin: Address, value: bool) {
-    ghost_log_all();
-    FeesCollector::set_emergency_mode(e.clone(), emergency_admin, value);
-    ghost_log_all();
+pub fn setter_getter_emergency_mode(e: Env, emergency_admin: Address, value: u8) {
+    
+    // @note It seems there is an internal prover error when using bool in parameters natively
+    //  https://prover.certora.com/output/52567/2eefc1e0560243cdb210dcb145f7d99d/?anonymousKey=418550b6f8be9074073cc1bb4d47ae317905a6cd
+    // Convert u8 to bool: non-zero == true, zero == false
+    let bool_value = value != 0;
+
+    FeesCollector::set_emergency_mode(e.clone(), emergency_admin, bool_value);
     let result = FeesCollector::get_emergency_mode(e);
-    ghost_log_all();
-    clog!(result);
-    clog!(value);
-    cvlr_assert!(result == value);
+    cvlr_assert!(result == bool_value);
 }
 
 #[rule]
