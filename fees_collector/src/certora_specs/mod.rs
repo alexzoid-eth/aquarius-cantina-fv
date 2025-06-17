@@ -3,7 +3,7 @@ pub(crate) mod harnesses;
 pub(crate) mod sanity;
 pub(crate) mod state_transition;
 pub(crate) mod permissions;
-pub(crate) mod setter_getter;
+pub(crate) mod integrity;
 
 use crate::certora_specs::base::ParametricParams;
 use crate::certora_specs::base::ghost_log::ghost_log_all;

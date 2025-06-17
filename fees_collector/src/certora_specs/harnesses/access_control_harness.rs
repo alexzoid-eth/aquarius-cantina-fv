@@ -8,6 +8,7 @@ use access_control::{
     emergency::{get_emergency_mode, set_emergency_mode},
     management::{SingleAddressManagementTrait, MultipleAddressesManagementTrait},
     role::{Role, SymbolRepresentation},
+    storage::{DataKey, StorageTrait},
     transfer::TransferOwnershipTrait,
     utils::*,
 };
@@ -153,5 +154,65 @@ impl FeesCollector {
         access_control.set_role_address(&Role::OperationsAdmin, &operations_admin);
         access_control.set_role_address(&Role::PauseAdmin, &pause_admin);
         access_control.set_role_addresses(&Role::EmergencyPauseAdmin, &emergency_pause_admins);
+    }
+
+    pub fn h_get_storage_key(e: Env, role_name: Symbol) -> u32 {
+        let access_control = AccessControl::new(&e);
+        let role = Role::from_symbol(&e, role_name);
+        let key = access_control.get_key(&role);
+        // Return a numeric representation of the DataKey for testing
+        match key {
+            DataKey::Admin => 1,
+            DataKey::EmergencyAdmin => 2,
+            DataKey::Operator => 3,
+            DataKey::OperationsAdmin => 4,
+            DataKey::PauseAdmin => 5,
+            DataKey::EmPauseAdmins => 6,
+            DataKey::FutureAdmin => 7,
+            DataKey::FutureEmergencyAdmin => 8,
+            DataKey::TransferOwnershipDeadline => 9,
+            DataKey::EmAdminTransferOwnershipDeadline => 10,
+            DataKey::EmergencyMode => 11,
+        }
+    }
+
+    pub fn h_get_future_storage_key(e: Env, role_name: Symbol) -> u32 {
+        let access_control = AccessControl::new(&e);
+        let role = Role::from_symbol(&e, role_name);
+        let key = access_control.get_future_key(&role);
+        // Return a numeric representation of the DataKey for testing
+        match key {
+            DataKey::Admin => 1,
+            DataKey::EmergencyAdmin => 2,
+            DataKey::Operator => 3,
+            DataKey::OperationsAdmin => 4,
+            DataKey::PauseAdmin => 5,
+            DataKey::EmPauseAdmins => 6,
+            DataKey::FutureAdmin => 7,
+            DataKey::FutureEmergencyAdmin => 8,
+            DataKey::TransferOwnershipDeadline => 9,
+            DataKey::EmAdminTransferOwnershipDeadline => 10,
+            DataKey::EmergencyMode => 11,
+        }
+    }
+
+    pub fn h_get_future_deadline_key(e: Env, role_name: Symbol) -> u32 {
+        let access_control = AccessControl::new(&e);
+        let role = Role::from_symbol(&e, role_name);
+        let key = access_control.get_future_deadline_key(&role);
+        // Return a numeric representation of the DataKey for testing
+        match key {
+            DataKey::Admin => 1,
+            DataKey::EmergencyAdmin => 2,
+            DataKey::Operator => 3,
+            DataKey::OperationsAdmin => 4,
+            DataKey::PauseAdmin => 5,
+            DataKey::EmPauseAdmins => 6,
+            DataKey::FutureAdmin => 7,
+            DataKey::FutureEmergencyAdmin => 8,
+            DataKey::TransferOwnershipDeadline => 9,
+            DataKey::EmAdminTransferOwnershipDeadline => 10,
+            DataKey::EmergencyMode => 11,
+        }
     }
 }
