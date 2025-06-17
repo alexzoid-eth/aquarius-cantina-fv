@@ -6,7 +6,7 @@ use crate::certora_specs::base::ParametricParams;
 use ghost_state::GhostState;
 
 // 
-// ROLE ADDRESSES
+// Role addresses
 // 
 
 // Check permissions for admin role changes
@@ -35,8 +35,8 @@ pub fn permissions_admin_role_changes(
     cvlr_assert!(valid);
 }
 
-// Check permissions for emergency_admin role changes
-pub fn permissions_emergency_admin_role_changes(
+// Check permissions for other admin role changes (emergency, rewards, operations, pause, emergency_pause)
+pub fn permissions_other_admins_role_changes(
     _e: &Env,
     params: &ParametricParams,
     call_fn: impl FnOnce()
@@ -45,96 +45,22 @@ pub fn permissions_emergency_admin_role_changes(
     call_fn();
     let after = GhostState::read();
     
-    let valid = if before.emergency_admin != after.emergency_admin {
-        // Only admin can change emergency_admin
-        before.admin.is_some() && params.caller == before.admin.unwrap()
-    } else {
-        // No change - always valid
-        true
-    };
-    
-    cvlr_assert!(valid);
-}
-
-// Check permissions for rewards_admin role changes
-pub fn permissions_rewards_admin_role_changes(
-    _e: &Env,
-    params: &ParametricParams,
-    call_fn: impl FnOnce()
-) {
-    let before = GhostState::read();
-    call_fn();
-    let after = GhostState::read();
-    
-    let valid = if before.rewards_admin != after.rewards_admin {
-        // Only admin can change rewards_admin
-        before.admin.is_some() && params.caller == before.admin.unwrap()
-    } else {
-        // No change - always valid
-        true
-    };
-    
-    cvlr_assert!(valid);
-}
-
-// Check permissions for operations_admin role changes
-pub fn permissions_operations_admin_role_changes(
-    _e: &Env,
-    params: &ParametricParams,
-    call_fn: impl FnOnce()
-) {
-    let before = GhostState::read();
-    call_fn();
-    let after = GhostState::read();
-    
-    let valid = if before.operations_admin != after.operations_admin {
-        // Only admin can change operations_admin
-        before.admin.is_some() && params.caller == before.admin.unwrap()
-    } else {
-        // No change - always valid
-        true
-    };
-    
-    cvlr_assert!(valid);
-}
-
-// Check permissions for pause_admin role changes
-pub fn permissions_pause_admin_role_changes(
-    _e: &Env,
-    params: &ParametricParams,
-    call_fn: impl FnOnce()
-) {
-    let before = GhostState::read();
-    call_fn();
-    let after = GhostState::read();
-    
-    let valid = if before.pause_admin != after.pause_admin {
-        // Only admin can change pause_admin
-        before.admin.is_some() && params.caller == before.admin.unwrap()
-    } else {
-        // No change - always valid
-        true
-    };
-    
-    cvlr_assert!(valid);
-}
-
-// Check permissions for emergency_pause_admins changes
-pub fn permissions_emergency_pause_admins_changes(
-    _e: &Env,
-    params: &ParametricParams,
-    call_fn: impl FnOnce()
-) {
-    let before = GhostState::read();
-    call_fn();
-    let after = GhostState::read();
-    
-    let valid = if before.emergency_pause_admins != after.emergency_pause_admins {
-        // Only admin can change emergency_pause_admins
-        before.admin.is_some() && params.caller == before.admin.unwrap()
-    } else {
-        // No change - always valid
-        true
+    let valid = {
+        // Check if any of the other admin roles changed
+        let emergency_admin_changed = before.emergency_admin != after.emergency_admin;
+        let rewards_admin_changed = before.rewards_admin != after.rewards_admin;
+        let operations_admin_changed = before.operations_admin != after.operations_admin;
+        let pause_admin_changed = before.pause_admin != after.pause_admin;
+        let emergency_pause_admins_changed = before.emergency_pause_admins != after.emergency_pause_admins;
+        
+        // If any role changed, only admin can make the change
+        if emergency_admin_changed || rewards_admin_changed || operations_admin_changed || 
+           pause_admin_changed || emergency_pause_admins_changed {
+            before.admin.is_some() && params.caller == before.admin.unwrap()
+        } else {
+            // No change - always valid
+            true
+        }
     };
     
     cvlr_assert!(valid);

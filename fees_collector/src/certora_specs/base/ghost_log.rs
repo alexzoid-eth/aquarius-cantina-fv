@@ -6,7 +6,6 @@ use ghost_state::GhostState;
 pub fn ghost_log_all() {
     let state = GhostState::read();
     
-    // Role addresses - log actual addresses or 0 if None
     match &state.admin {
         Some(addr) => {
             let admin_addr = cvlr_soroban::Addr(&addr);
@@ -65,14 +64,12 @@ pub fn ghost_log_all() {
     let emergency_pause_admins_count = state.emergency_pause_admins.len();
     clog!(emergency_pause_admins_count);
     
-    // Transfer deadlines
     let admin_transfer_deadline = state.admin_transfer_deadline;
     clog!(admin_transfer_deadline);
     
     let em_admin_transfer_deadline = state.em_admin_transfer_deadline;
     clog!(em_admin_transfer_deadline);
     
-    // Future addresses
     match &state.future_admin {
         Some(addr) => {
             let future_admin_addr = cvlr_soroban::Addr(&addr);
@@ -95,11 +92,9 @@ pub fn ghost_log_all() {
         }
     }
     
-    // Emergency mode
     let emergency_mode = state.emergency_mode;
     clog!(emergency_mode);
     
-    // Upgrade state
     let upgrade_deadline = state.upgrade_deadline;
     clog!(upgrade_deadline);
     

@@ -3,7 +3,6 @@
 
 use soroban_sdk::{Address, BytesN, Vec};
 
-// Static mutable variable to hold the ghost state
 static mut GHOST_STATE: Option<GhostState> = None;
 
 // Structure to hold all system state
@@ -32,7 +31,7 @@ pub struct GhostState {
 }
 
 impl GhostState {
-    // Create a new GhostState with given Vec
+
     pub fn new(emergency_pause_admins: Vec<Address>) -> Self {
         Self {
             admin: None,
@@ -51,14 +50,12 @@ impl GhostState {
         }
     }
     
-    // Initialize the static GHOST_STATE with a given state
     pub fn initialize(state: Self) {
         unsafe {
             GHOST_STATE = Some(state);
         }
     }
     
-    // Read from the static GHOST_STATE
     pub fn read() -> Self {
         unsafe {
             match &GHOST_STATE {
@@ -68,7 +65,6 @@ impl GhostState {
         }
     }
     
-    // Update fields in the static GHOST_STATE
     pub fn update<F>(updater: F) 
     where 
         F: FnOnce(&mut GhostState)

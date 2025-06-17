@@ -1,4 +1,4 @@
-// Sanity (reachability in at least one execution path) properties
+// Sanity (reachability in at least one execution path) property
 
 use soroban_sdk::Env;
 use cvlr::cvlr_satisfy;
