@@ -4,6 +4,7 @@ pub(crate) mod sanity;
 pub(crate) mod state_transition;
 pub(crate) mod permissions;
 pub(crate) mod integrity;
+pub(crate) mod high_level;
 
 use crate::certora_specs::base::ParametricParams;
 use crate::certora_specs::base::ghost_log::ghost_log_all;

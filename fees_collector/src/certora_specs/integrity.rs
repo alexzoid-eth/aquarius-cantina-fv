@@ -47,8 +47,9 @@ pub fn integrity_commit_transfer_deadline(e: Env, admin: Address, role_name: Sym
 #[rule]
 pub fn integrity_role_address_single(e: Env, role_name: Symbol, address: Address) {
     FeesCollector::h_set_role_address(e.clone(), role_name.clone(), address.clone());
-    let result = FeesCollector::h_get_role(e, role_name);
-    cvlr_assert!(result == address);
+    // Use h_get_role_safe since role_name could be any role, not just Admin
+    let result = FeesCollector::h_get_role_safe(e, role_name);
+    cvlr_assert!(result == Some(address));
 }
 
 #[rule]
@@ -103,17 +104,17 @@ pub fn integrity_init_all_roles(e: Env, admin: Address, emergency_admin: Address
                                    pause_admin.clone(), emergency_pause_admins.clone());
     
     let admin_result = FeesCollector::h_get_role(e.clone(), Symbol::new(&e, "Admin"));
-    let em_admin_result = FeesCollector::h_get_role(e.clone(), Symbol::new(&e, "EmergencyAdmin"));
-    let rewards_result = FeesCollector::h_get_role(e.clone(), Symbol::new(&e, "RewardsAdmin"));
-    let ops_result = FeesCollector::h_get_role(e.clone(), Symbol::new(&e, "OperationsAdmin"));
-    let pause_result = FeesCollector::h_get_role(e.clone(), Symbol::new(&e, "PauseAdmin"));
+    let em_admin_result = FeesCollector::h_get_role_safe(e.clone(), Symbol::new(&e, "EmergencyAdmin"));
+    let rewards_result = FeesCollector::h_get_role_safe(e.clone(), Symbol::new(&e, "RewardsAdmin"));
+    let ops_result = FeesCollector::h_get_role_safe(e.clone(), Symbol::new(&e, "OperationsAdmin"));
+    let pause_result = FeesCollector::h_get_role_safe(e.clone(), Symbol::new(&e, "PauseAdmin"));
     let em_pause_result = FeesCollector::h_get_role_addresses(e.clone(), Symbol::new(&e, "EmergencyPauseAdmin"));
     
     cvlr_assert!(admin_result == admin);
-    cvlr_assert!(em_admin_result == emergency_admin);
-    cvlr_assert!(rewards_result == rewards_admin);
-    cvlr_assert!(ops_result == operations_admin);
-    cvlr_assert!(pause_result == pause_admin);
+    cvlr_assert!(em_admin_result == Some(emergency_admin));
+    cvlr_assert!(rewards_result == Some(rewards_admin));
+    cvlr_assert!(ops_result == Some(operations_admin));
+    cvlr_assert!(pause_result == Some(pause_admin));
     cvlr_assert!(em_pause_result == emergency_pause_admins);
 }
 
@@ -123,14 +124,14 @@ pub fn integrity_privileged_addresses(e: Env, rewards_admin: Address, operations
     FeesCollector::h_set_privileged_addrs(e.clone(), rewards_admin.clone(), operations_admin.clone(), 
                                          pause_admin.clone(), emergency_pause_admins.clone());
     
-    let rewards_result = FeesCollector::h_get_role(e.clone(), Symbol::new(&e, "RewardsAdmin"));
-    let ops_result = FeesCollector::h_get_role(e.clone(), Symbol::new(&e, "OperationsAdmin"));
-    let pause_result = FeesCollector::h_get_role(e.clone(), Symbol::new(&e, "PauseAdmin"));
+    let rewards_result = FeesCollector::h_get_role_safe(e.clone(), Symbol::new(&e, "RewardsAdmin"));
+    let ops_result = FeesCollector::h_get_role_safe(e.clone(), Symbol::new(&e, "OperationsAdmin"));
+    let pause_result = FeesCollector::h_get_role_safe(e.clone(), Symbol::new(&e, "PauseAdmin"));
     let em_pause_result = FeesCollector::h_get_role_addresses(e.clone(), Symbol::new(&e, "EmergencyPauseAdmin"));
     
-    cvlr_assert!(rewards_result == rewards_admin);
-    cvlr_assert!(ops_result == operations_admin);
-    cvlr_assert!(pause_result == pause_admin);
+    cvlr_assert!(rewards_result == Some(rewards_admin));
+    cvlr_assert!(ops_result == Some(operations_admin));
+    cvlr_assert!(pause_result == Some(pause_admin));
     cvlr_assert!(em_pause_result == emergency_pause_admins);
 }
 
@@ -240,7 +241,8 @@ pub fn integrity_require_rewards_admin_with_rewards_admin(e: Env, rewards_admin:
 
 #[rule]
 pub fn integrity_require_rewards_admin_with_admin(e: Env, admin: Address) {
-    FeesCollector::h_set_role_address(e.clone(), Symbol::new(&e, "Admin"), admin.clone());
+    // Initialize the admin role
+    FeesCollector::init_admin(e.clone(), admin.clone());
     // Should not panic when address has admin role (owner)
     FeesCollector::h_require_rewards_admin_or_owner(e, admin);
     cvlr_satisfy!(true);
@@ -268,7 +270,8 @@ pub fn integrity_require_operations_admin_with_operations_admin(e: Env, operatio
 
 #[rule]
 pub fn integrity_require_operations_admin_with_admin(e: Env, admin: Address) {
-    FeesCollector::h_set_role_address(e.clone(), Symbol::new(&e, "Admin"), admin.clone());
+    // Initialize the admin role
+    FeesCollector::init_admin(e.clone(), admin.clone());
     // Should not panic when address has admin role (owner)
     FeesCollector::h_require_operations_admin_owner(e, admin);
     cvlr_satisfy!(true);
@@ -305,7 +308,8 @@ pub fn integrity_require_pause_emergency_with_emergency_pause_admin(e: Env, emer
 
 #[rule]
 pub fn integrity_require_pause_emergency_with_admin(e: Env, admin: Address) {
-    FeesCollector::h_set_role_address(e.clone(), Symbol::new(&e, "Admin"), admin.clone());
+    // Initialize the admin role
+    FeesCollector::init_admin(e.clone(), admin.clone());
     // Should not panic when address has admin role (owner)
     FeesCollector::h_require_pause_emergency_admin(e, admin);
     cvlr_satisfy!(true);
@@ -335,7 +339,8 @@ pub fn integrity_require_pause_admin_with_pause_admin(e: Env, pause_admin: Addre
 
 #[rule]
 pub fn integrity_require_pause_admin_with_admin(e: Env, admin: Address) {
-    FeesCollector::h_set_role_address(e.clone(), Symbol::new(&e, "Admin"), admin.clone());
+    // Initialize the admin role
+    FeesCollector::init_admin(e.clone(), admin.clone());
     // Should not panic when address has admin role (owner)
     FeesCollector::h_require_pause_admin_or_owner(e, admin);
     cvlr_satisfy!(true);

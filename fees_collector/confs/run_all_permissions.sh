@@ -9,15 +9,7 @@ if [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
     exit 0
 fi
 
-# Run the four core permissions configs that provide complete coverage (split for timeout prevention)
-configs=(
-    "permissions_admin_role_management_verified.conf"
-    "permissions_transfer_deadlines_verified.conf"
-    "permissions_future_addresses_verified.conf"
-    "permissions_emergency_and_upgrades_verified.conf"
-)
-
-for config in "${configs[@]}"; do
+for config in permissions_*_verified.conf; do
     echo "Running: $config"
-    certoraSorobanProver "$config"    
+    certoraSorobanProver "$config"   
 done

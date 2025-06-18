@@ -11,7 +11,7 @@ pub fn require_rewards_admin_or_owner(e: &Env, address: &Address) {
 }
 
 pub fn require_operations_admin_or_owner(e: &Env, address: &Address) {
-    let access_control = AccessControl::new(e);
+    let access_control: AccessControl = AccessControl::new(e);
     let _ = access_control.address_has_role(address, &Role::OperationsAdmin)
         || access_control.address_has_role(address, &Role::Admin)
         || panic_with_error!(e, AccessControlError::Unauthorized);

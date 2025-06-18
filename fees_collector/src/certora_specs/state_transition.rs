@@ -39,18 +39,15 @@ fn check_admin_deadline_lifecycle(
     e: &Env,
     deadline_before: u64,
     deadline_after: u64,
-    _future_before: Option<impl Clone>,
     future_after: Option<impl Clone>,
 ) -> bool {
     if deadline_before == 0 && deadline_after != 0 {
         // Transition from 0 to non-zero (commit)
         deadline_after == e.ledger().timestamp() + ADMIN_ACTIONS_DELAY && future_after.is_some()
-    } else if deadline_before != 0 && deadline_after == 0 {
+    // } else if deadline_before != 0 && deadline_after == 0 {
         // Transition from non-zero to 0 (apply or revert)
-        // @note This executable path is violated due to 
-        //  information issue https://github.com/alexzoid-eth/aquarius-cantina-fv/issues/2
+        // @note This executable path is violated due to https://github.com/alexzoid-eth/aquarius-cantina-fv/issues/2
         // future_after.is_none()
-        true
     } else if deadline_before != 0 && deadline_after != 0 {
         // Cannot change non-zero deadline to different non-zero value
         deadline_before == deadline_after
@@ -176,7 +173,6 @@ pub fn state_transition_admin_deadline_lifecycle(
         e,
         before.admin_transfer_deadline,
         after.admin_transfer_deadline,
-        before.future_admin,
         after.future_admin,
     );
     
@@ -218,7 +214,6 @@ pub fn state_transition_em_admin_deadline_lifecycle(
         e,
         before.em_admin_transfer_deadline,
         after.em_admin_transfer_deadline,
-        before.future_em_admin,
         after.future_em_admin,
     );
     
