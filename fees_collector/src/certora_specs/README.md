@@ -4,7 +4,7 @@ All changes are made with `#[cfg(feature = "certora")]` and `#[cfg(not(feature =
 
 ## Harness functions 
 
-`fee_collector` program extended with public harness functions allowing access to `control_harness` and `upgrade` libs.
+`fee_collector` program extended with public harness functions allowing access to `access_control` and `upgrade` libs.
 
 ## Mirroring storage
 
