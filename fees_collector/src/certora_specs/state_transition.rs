@@ -46,7 +46,8 @@ fn check_admin_deadline_lifecycle(
         deadline_after == e.ledger().timestamp() + ADMIN_ACTIONS_DELAY && future_after.is_some()
     // } else if deadline_before != 0 && deadline_after == 0 {
         // Transition from non-zero to 0 (apply or revert)
-        // @note This executable path is violated due to https://github.com/alexzoid-eth/aquarius-cantina-fv/issues/2
+        // @note This executable path is violated due 
+        //  to https://github.com/alexzoid-eth/aquarius-cantina-fv/issues/2
         // future_after.is_none()
     } else if deadline_before != 0 && deadline_after != 0 {
         // Cannot change non-zero deadline to different non-zero value

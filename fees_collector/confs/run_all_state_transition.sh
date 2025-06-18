@@ -9,7 +9,7 @@ if [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
     exit 0
 fi
 
-for config in state_transition_*_verified.conf; do
+for config in fees_collector_state_transition_*_verified.conf; do
     echo "Running: $config"
     certoraSorobanProver "$config"    
 done

@@ -215,4 +215,167 @@ impl FeesCollector {
             DataKey::EmergencyMode => 11,
         }
     }
+    
+    // Role ID constants
+    pub const ROLE_ID_ADMIN: u32 = 1;
+    pub const ROLE_ID_EMERGENCY_ADMIN: u32 = 2;
+    pub const ROLE_ID_REWARDS_ADMIN: u32 = 3;
+    pub const ROLE_ID_OPERATIONS_ADMIN: u32 = 4;
+    pub const ROLE_ID_PAUSE_ADMIN: u32 = 5;
+    pub const ROLE_ID_EMERGENCY_PAUSE_ADMIN: u32 = 6;
+
+    fn role_from_id(role_id: u32) -> Role {
+        match role_id {
+            1 => Role::Admin,
+            2 => Role::EmergencyAdmin,
+            3 => Role::RewardsAdmin,
+            4 => Role::OperationsAdmin,
+            5 => Role::PauseAdmin,
+            6 => Role::EmergencyPauseAdmin,
+            _ => panic!("Invalid role ID"),
+        }
+    }
+
+    pub fn role_id_to_symbol(e: Env, role_id: u32) -> Symbol {
+        let role = Self::role_from_id(role_id);
+        role.as_symbol(&e)
+    }
+
+    pub fn h_get_role_by_id(e: Env, role_id: u32) -> Address {
+        let access_control = AccessControl::new(&e);
+        let role = Self::role_from_id(role_id);
+        access_control.get_role(&role)
+    }
+
+    pub fn h_get_role_safe_by_id(e: Env, role_id: u32) -> Option<Address> {
+        let access_control = AccessControl::new(&e);
+        let role = Self::role_from_id(role_id);
+        access_control.get_role_safe(&role)
+    }
+
+    pub fn h_set_role_address_by_id(e: Env, role_id: u32, address: Address) {
+        let access_control = AccessControl::new(&e);
+        let role = Self::role_from_id(role_id);
+        access_control.set_role_address(&role, &address);
+    }
+
+    pub fn h_get_storage_key_by_id(e: Env, role_id: u32) -> u32 {
+        let access_control = AccessControl::new(&e);
+        let role = Self::role_from_id(role_id);
+        let key = access_control.get_key(&role);
+        match key {
+            DataKey::Admin => 1,
+            DataKey::EmergencyAdmin => 2,
+            DataKey::Operator => 3,
+            DataKey::OperationsAdmin => 4,
+            DataKey::PauseAdmin => 5,
+            DataKey::EmPauseAdmins => 6,
+            DataKey::FutureAdmin => 7,
+            DataKey::FutureEmergencyAdmin => 8,
+            DataKey::TransferOwnershipDeadline => 9,
+            DataKey::EmAdminTransferOwnershipDeadline => 10,
+            DataKey::EmergencyMode => 11,
+        }
+    }
+
+    pub fn h_get_future_storage_key_by_id(e: Env, role_id: u32) -> u32 {
+        let access_control = AccessControl::new(&e);
+        let role = Self::role_from_id(role_id);
+        let key = access_control.get_future_key(&role);
+        match key {
+            DataKey::Admin => 1,
+            DataKey::EmergencyAdmin => 2,
+            DataKey::Operator => 3,
+            DataKey::OperationsAdmin => 4,
+            DataKey::PauseAdmin => 5,
+            DataKey::EmPauseAdmins => 6,
+            DataKey::FutureAdmin => 7,
+            DataKey::FutureEmergencyAdmin => 8,
+            DataKey::TransferOwnershipDeadline => 9,
+            DataKey::EmAdminTransferOwnershipDeadline => 10,
+            DataKey::EmergencyMode => 11,
+        }
+    }
+
+    pub fn h_get_future_deadline_key_by_id(e: Env, role_id: u32) -> u32 {
+        let access_control = AccessControl::new(&e);
+        let role = Self::role_from_id(role_id);
+        let key = access_control.get_future_deadline_key(&role);
+        match key {
+            DataKey::Admin => 1,
+            DataKey::EmergencyAdmin => 2,
+            DataKey::Operator => 3,
+            DataKey::OperationsAdmin => 4,
+            DataKey::PauseAdmin => 5,
+            DataKey::EmPauseAdmins => 6,
+            DataKey::FutureAdmin => 7,
+            DataKey::FutureEmergencyAdmin => 8,
+            DataKey::TransferOwnershipDeadline => 9,
+            DataKey::EmAdminTransferOwnershipDeadline => 10,
+            DataKey::EmergencyMode => 11,
+        }
+    }
+
+    // Direct role access functions
+    pub fn h_get_admin_role(e: Env) -> Address {
+        let access_control = AccessControl::new(&e);
+        access_control.get_role(&Role::Admin)
+    }
+
+    pub fn h_get_emergency_admin_safe(e: Env) -> Option<Address> {
+        let access_control = AccessControl::new(&e);
+        access_control.get_role_safe(&Role::EmergencyAdmin)
+    }
+
+    pub fn h_get_rewards_admin_safe(e: Env) -> Option<Address> {
+        let access_control = AccessControl::new(&e);
+        access_control.get_role_safe(&Role::RewardsAdmin)
+    }
+
+    pub fn h_get_operations_admin_safe(e: Env) -> Option<Address> {
+        let access_control = AccessControl::new(&e);
+        access_control.get_role_safe(&Role::OperationsAdmin)
+    }
+
+    pub fn h_get_pause_admin_safe(e: Env) -> Option<Address> {
+        let access_control = AccessControl::new(&e);
+        access_control.get_role_safe(&Role::PauseAdmin)
+    }
+
+    pub fn h_set_admin_address(e: Env, address: Address) {
+        let access_control = AccessControl::new(&e);
+        access_control.set_role_address(&Role::Admin, &address);
+    }
+
+    pub fn h_set_emergency_admin_address(e: Env, address: Address) {
+        let access_control = AccessControl::new(&e);
+        access_control.set_role_address(&Role::EmergencyAdmin, &address);
+    }
+
+    pub fn h_set_rewards_admin_address(e: Env, address: Address) {
+        let access_control = AccessControl::new(&e);
+        access_control.set_role_address(&Role::RewardsAdmin, &address);
+    }
+
+    pub fn h_set_operations_admin_address(e: Env, address: Address) {
+        let access_control = AccessControl::new(&e);
+        access_control.set_role_address(&Role::OperationsAdmin, &address);
+    }
+
+    pub fn h_set_pause_admin_address(e: Env, address: Address) {
+        let access_control = AccessControl::new(&e);
+        access_control.set_role_address(&Role::PauseAdmin, &address);
+    }
+
+    pub fn h_get_role_addresses_by_id(e: Env, role_id: u32) -> Vec<Address> {
+        let access_control = AccessControl::new(&e);
+        let role = Self::role_from_id(role_id);
+        access_control.get_role_addresses(&role)
+    }
+
+    pub fn h_set_role_addresses_by_id(e: Env, role_id: u32, addresses: Vec<Address>) {
+        let access_control = AccessControl::new(&e);
+        let role = Self::role_from_id(role_id);
+        access_control.set_role_addresses(&role, &addresses);
+    }
 }
