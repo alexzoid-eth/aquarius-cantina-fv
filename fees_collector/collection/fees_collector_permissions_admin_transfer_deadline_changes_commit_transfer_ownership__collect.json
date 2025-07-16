@@ -1,0 +1,365 @@
+{
+    "original": "https://prover.certora.com/output/7749274/0a5e63f383874437a3fc643669f1cf74?anonymousKey=9392d7c990043b3b5a09c63700445e88c8366632",
+    "mutants": [
+        {
+            "gambit_mutant": {
+                "filename": "../mutations/access_control/emergency-merged/emergency_0.rs",
+                "original_filename": "../../access_control/src/emergency.rs",
+                "directory": "../mutations/access_control/emergency-merged",
+                "id": "emergency_0",
+                "diff": "27c27\n<     e.storage().instance().set(&DataKey::EmergencyMode, value);\n---\n>     // e.storage().instance().set(&DataKey::EmergencyMode, value); MUTANT\n",
+                "description": "../mutations/access_control/emergency-merged/emergency_0.rs",
+                "name": "emergency_0"
+            },
+            "link": "https://prover.certora.com/output/7749274/da61adbbe1624bb6b3bd1734507f3e13?anonymousKey=319d2aff18d704da7f4d958dac6721f6f4e3f40e",
+            "success": true,
+            "run_directory": "",
+            "rule_report_link": "https://prover.certora.com/output/7749274/da61adbbe1624bb6b3bd1734507f3e13?anonymousKey=319d2aff18d704da7f4d958dac6721f6f4e3f40e"
+        },
+        {
+            "gambit_mutant": {
+                "filename": "../mutations/access_control/management-merged/management_1.rs",
+                "original_filename": "../../access_control/src/management.rs",
+                "directory": "../mutations/access_control/management-merged",
+                "id": "management_1",
+                "diff": "80c80\n<         self.0.storage().instance().set(&key, address);\n---\n>         // self.0.storage().instance().set(&key, address); MUTANT\n",
+                "description": "../mutations/access_control/management-merged/management_1.rs",
+                "name": "management_1"
+            },
+            "link": "https://prover.certora.com/output/7749274/3db05abce0044eacb3b8931ec93083ba?anonymousKey=5d0bf1e3020b5bcb5a11f1a3dc15b94fb39be646",
+            "success": true,
+            "run_directory": "",
+            "rule_report_link": "https://prover.certora.com/output/7749274/3db05abce0044eacb3b8931ec93083ba?anonymousKey=5d0bf1e3020b5bcb5a11f1a3dc15b94fb39be646"
+        },
+        {
+            "gambit_mutant": {
+                "filename": "../mutations/access_control/management-merged/management_0.rs",
+                "original_filename": "../../access_control/src/management.rs",
+                "directory": "../mutations/access_control/management-merged",
+                "id": "management_0",
+                "diff": "74c74\n<         if addr.is_some() && role.is_transfer_delayed() {\n---\n>         if addr.is_some() && !role.is_transfer_delayed() {  // MUTANT (negation)\n",
+                "description": "../mutations/access_control/management-merged/management_0.rs",
+                "name": "management_0"
+            },
+            "link": "https://prover.certora.com/output/7749274/30fad913323d462788371c820a9567c3?anonymousKey=bd5129aae338b76639755ac88e18540996c7f6c3",
+            "success": true,
+            "run_directory": "",
+            "rule_report_link": "https://prover.certora.com/output/7749274/30fad913323d462788371c820a9567c3?anonymousKey=bd5129aae338b76639755ac88e18540996c7f6c3"
+        },
+        {
+            "gambit_mutant": {
+                "filename": "../mutations/access_control/storage-merged/storage_0.rs",
+                "original_filename": "../../access_control/src/storage.rs",
+                "directory": "../mutations/access_control/storage-merged",
+                "id": "storage_0",
+                "diff": "72c72\n<             Role::RewardsAdmin => DataKey::Operator,\n---\n>             Role::RewardsAdmin => DataKey::OperationsAdmin, // MUTANT: changed from DataKey::Operator \n",
+                "description": "../mutations/access_control/storage-merged/storage_0.rs",
+                "name": "storage_0"
+            },
+            "link": "https://prover.certora.com/output/7749274/26de9c27841c4f83b5207d4ac57c3464?anonymousKey=c31a02fea6984721ccc503f3e1618853a8c03a0c",
+            "success": true,
+            "run_directory": "",
+            "rule_report_link": "https://prover.certora.com/output/7749274/26de9c27841c4f83b5207d4ac57c3464?anonymousKey=c31a02fea6984721ccc503f3e1618853a8c03a0c"
+        },
+        {
+            "gambit_mutant": {
+                "filename": "../mutations/access_control/storage-merged/storage_2.rs",
+                "original_filename": "../../access_control/src/storage.rs",
+                "directory": "../mutations/access_control/storage-merged",
+                "id": "storage_2",
+                "diff": "89c89\n<             Role::Admin => DataKey::TransferOwnershipDeadline,\n---\n>             Role::Admin => DataKey::FutureAdmin, // MUTANT: changed from DataKey::TransferOwnershipDeadline\n",
+                "description": "../mutations/access_control/storage-merged/storage_2.rs",
+                "name": "storage_2"
+            },
+            "link": "https://prover.certora.com/output/7749274/a559a8d7edce44b4b35839da87a7e48d?anonymousKey=32b9fb9338b92c06855a4a8ff47e9564f207fd32",
+            "success": true,
+            "run_directory": "",
+            "rule_report_link": "https://prover.certora.com/output/7749274/a559a8d7edce44b4b35839da87a7e48d?anonymousKey=32b9fb9338b92c06855a4a8ff47e9564f207fd32"
+        },
+        {
+            "gambit_mutant": {
+                "filename": "../mutations/access_control/storage-merged/storage_1.rs",
+                "original_filename": "../../access_control/src/storage.rs",
+                "directory": "../mutations/access_control/storage-merged",
+                "id": "storage_1",
+                "diff": "82c82\n<             Role::EmergencyAdmin => DataKey::FutureEmergencyAdmin,\n---\n>             Role::EmergencyAdmin => DataKey::FutureAdmin, // MUTANT: changed from DataKey::FutureEmergencyAdmin\n",
+                "description": "../mutations/access_control/storage-merged/storage_1.rs",
+                "name": "storage_1"
+            },
+            "link": "https://prover.certora.com/output/7749274/e19d58b666d3440eb2c6093fed0902e2?anonymousKey=5d40effe86c155f292af0bcdc88d58337f00a303",
+            "success": true,
+            "run_directory": "",
+            "rule_report_link": "https://prover.certora.com/output/7749274/e19d58b666d3440eb2c6093fed0902e2?anonymousKey=5d40effe86c155f292af0bcdc88d58337f00a303"
+        },
+        {
+            "gambit_mutant": {
+                "filename": "../mutations/access_control/transfer-merged/transfer_4.rs",
+                "original_filename": "../../access_control/src/transfer.rs",
+                "directory": "../mutations/access_control/transfer-merged",
+                "id": "transfer_4",
+                "diff": "129c129\n<         self.put_transfer_ownership_deadline(role, 0);\n---\n>         // self.put_transfer_ownership_deadline(role, 0); MUTANT\n",
+                "description": "../mutations/access_control/transfer-merged/transfer_4.rs",
+                "name": "transfer_4"
+            },
+            "link": "https://prover.certora.com/output/7749274/2fb87475038b4205aaa334ea18e5837b?anonymousKey=56a117927e4f391489ac04170117a53309a38ef1",
+            "success": true,
+            "run_directory": "",
+            "rule_report_link": "https://prover.certora.com/output/7749274/2fb87475038b4205aaa334ea18e5837b?anonymousKey=56a117927e4f391489ac04170117a53309a38ef1"
+        },
+        {
+            "gambit_mutant": {
+                "filename": "../mutations/access_control/transfer-merged/transfer_0.rs",
+                "original_filename": "../../access_control/src/transfer.rs",
+                "directory": "../mutations/access_control/transfer-merged",
+                "id": "transfer_0",
+                "diff": "137c137\n<         storage.set(&self.get_key(role), &future_address);\n---\n>         // storage.set(&self.get_key(role), &future_address); MUTANT\n",
+                "description": "../mutations/access_control/transfer-merged/transfer_0.rs",
+                "name": "transfer_0"
+            },
+            "link": "https://prover.certora.com/output/7749274/d5b306f2da024d07838944804cc521c7?anonymousKey=962f4cd3bef749486ebcbdb313c82c512fed332d",
+            "success": true,
+            "run_directory": "",
+            "rule_report_link": "https://prover.certora.com/output/7749274/d5b306f2da024d07838944804cc521c7?anonymousKey=962f4cd3bef749486ebcbdb313c82c512fed332d"
+        },
+        {
+            "gambit_mutant": {
+                "filename": "../mutations/access_control/transfer-merged/transfer_3.rs",
+                "original_filename": "../../access_control/src/transfer.rs",
+                "directory": "../mutations/access_control/transfer-merged",
+                "id": "transfer_3",
+                "diff": "160c160\n<         self.put_transfer_ownership_deadline(role, 0);\n---\n>         //self.put_transfer_ownership_deadline(role, 0); // MUTANT\n",
+                "description": "../mutations/access_control/transfer-merged/transfer_3.rs",
+                "name": "transfer_3"
+            },
+            "link": "https://prover.certora.com/output/7749274/bcfa8133f3c14668855b918d020e509c?anonymousKey=b8286bbfe68cb49846585ca0a79dc6aa22bf9de8",
+            "success": true,
+            "run_directory": "",
+            "rule_report_link": "https://prover.certora.com/output/7749274/bcfa8133f3c14668855b918d020e509c?anonymousKey=b8286bbfe68cb49846585ca0a79dc6aa22bf9de8"
+        },
+        {
+            "gambit_mutant": {
+                "filename": "../mutations/access_control/transfer-merged/transfer_1.rs",
+                "original_filename": "../../access_control/src/transfer.rs",
+                "directory": "../mutations/access_control/transfer-merged",
+                "id": "transfer_1",
+                "diff": "26c26\n<         let value = self.0.storage().instance().get(&key).unwrap_or(0);\n---\n>         let value = 0; // MUTANT: self.0.storage().instance().get(&key).unwrap_or(0)\n",
+                "description": "../mutations/access_control/transfer-merged/transfer_1.rs",
+                "name": "transfer_1"
+            },
+            "link": "https://prover.certora.com/output/7749274/fbc1f99d7b194a6cb5a56aca70194e36?anonymousKey=abc8ff6f36c6d56161cb9004559c45377af1bc32",
+            "success": true,
+            "run_directory": "",
+            "rule_report_link": "https://prover.certora.com/output/7749274/fbc1f99d7b194a6cb5a56aca70194e36?anonymousKey=abc8ff6f36c6d56161cb9004559c45377af1bc32"
+        },
+        {
+            "gambit_mutant": {
+                "filename": "../mutations/access_control/transfer-merged/transfer_5.rs",
+                "original_filename": "../../access_control/src/transfer.rs",
+                "directory": "../mutations/access_control/transfer-merged",
+                "id": "transfer_5",
+                "diff": "95c95\n<         let deadline = self.0.ledger().timestamp() + ADMIN_ACTIONS_DELAY;\n---\n>         let deadline = self.0.ledger().timestamp() - ADMIN_ACTIONS_DELAY;  // MUTANT (+ to -)\n",
+                "description": "../mutations/access_control/transfer-merged/transfer_5.rs",
+                "name": "transfer_5"
+            },
+            "link": "https://prover.certora.com/output/7749274/58c904a30b8c438f9821e47a8071eeb9?anonymousKey=88db3e4593efb6b51effb279e21041677e293f5c",
+            "success": true,
+            "run_directory": "",
+            "rule_report_link": "https://prover.certora.com/output/7749274/58c904a30b8c438f9821e47a8071eeb9?anonymousKey=88db3e4593efb6b51effb279e21041677e293f5c"
+        },
+        {
+            "gambit_mutant": {
+                "filename": "../mutations/access_control/transfer-merged/transfer_2.rs",
+                "original_filename": "../../access_control/src/transfer.rs",
+                "directory": "../mutations/access_control/transfer-merged",
+                "id": "transfer_2",
+                "diff": "46c46\n<         self.0.storage().instance().set(&key, &value);\n---\n>         self.0.storage().instance().set(&key, &0); // MUTANT: replaced value by 0\n",
+                "description": "../mutations/access_control/transfer-merged/transfer_2.rs",
+                "name": "transfer_2"
+            },
+            "link": "https://prover.certora.com/output/7749274/51e47a00e85e4d9584929507a5e6e811?anonymousKey=7741d40d2a92b9b387e1215d2b85152f49d99426",
+            "success": true,
+            "run_directory": "",
+            "rule_report_link": "https://prover.certora.com/output/7749274/51e47a00e85e4d9584929507a5e6e811?anonymousKey=7741d40d2a92b9b387e1215d2b85152f49d99426"
+        },
+        {
+            "gambit_mutant": {
+                "filename": "../mutations/fees_collector/contract-merged/contract_4.rs",
+                "original_filename": "../../fees_collector/src/contract.rs",
+                "directory": "../mutations/fees_collector/contract-merged",
+                "id": "contract_4",
+                "diff": "109c109\n<         set_emergency_mode(&e, &value);\n---\n>         // set_emergency_mode(&e, &value); MUTANT\n",
+                "description": "../mutations/fees_collector/contract-merged/contract_4.rs",
+                "name": "contract_4"
+            },
+            "link": "https://prover.certora.com/output/7749274/653541725c074306b535e2d23d1a3a08?anonymousKey=7027075f7239c825028f22d222cb839f4d93ee79",
+            "success": true,
+            "run_directory": "",
+            "rule_report_link": "https://prover.certora.com/output/7749274/653541725c074306b535e2d23d1a3a08?anonymousKey=7027075f7239c825028f22d222cb839f4d93ee79"
+        },
+        {
+            "gambit_mutant": {
+                "filename": "../mutations/fees_collector/contract-merged/contract_2.rs",
+                "original_filename": "../../fees_collector/src/contract.rs",
+                "directory": "../mutations/fees_collector/contract-merged",
+                "id": "contract_2",
+                "diff": "115c115\n<         get_emergency_mode(&e)\n---\n>         false // MUTANT: always returns false, changed from `get_emergency_mode(&e)`\n",
+                "description": "../mutations/fees_collector/contract-merged/contract_2.rs",
+                "name": "contract_2"
+            },
+            "link": "https://prover.certora.com/output/7749274/b67b715da6bb4d82979ff505ba6b8c74?anonymousKey=bd7408c2e8f2efc9ed034aedd70ca7bc96735629",
+            "success": true,
+            "run_directory": "",
+            "rule_report_link": "https://prover.certora.com/output/7749274/b67b715da6bb4d82979ff505ba6b8c74?anonymousKey=bd7408c2e8f2efc9ed034aedd70ca7bc96735629"
+        },
+        {
+            "gambit_mutant": {
+                "filename": "../mutations/fees_collector/contract-merged/contract_6.rs",
+                "original_filename": "../../fees_collector/src/contract.rs",
+                "directory": "../mutations/fees_collector/contract-merged",
+                "id": "contract_6",
+                "diff": "134c134\n<         access_control.assert_address_has_role(&admin, &Role::Admin);\n---\n>         // access_control.assert_address_has_role(&admin, &Role::Admin); MUTANT\n",
+                "description": "../mutations/fees_collector/contract-merged/contract_6.rs",
+                "name": "contract_6"
+            },
+            "link": "https://prover.certora.com/output/7749274/8be3a2e2169544d0be0e57a732f8b7b0?anonymousKey=b5ef380ba3ae56edd8a88c23e8bbdad9c9bfd9ce",
+            "success": true,
+            "run_directory": "",
+            "rule_report_link": "https://prover.certora.com/output/7749274/8be3a2e2169544d0be0e57a732f8b7b0?anonymousKey=b5ef380ba3ae56edd8a88c23e8bbdad9c9bfd9ce"
+        },
+        {
+            "gambit_mutant": {
+                "filename": "../mutations/fees_collector/contract-merged/contract_5.rs",
+                "original_filename": "../../fees_collector/src/contract.rs",
+                "directory": "../mutations/fees_collector/contract-merged",
+                "id": "contract_5",
+                "diff": "173c173\n<         access_control.revert_transfer_ownership(&role);\n---\n>         // access_control.revert_transfer_ownership(&role); MUTANT\n",
+                "description": "../mutations/fees_collector/contract-merged/contract_5.rs",
+                "name": "contract_5"
+            },
+            "link": "https://prover.certora.com/output/7749274/1fa25886021b4091a09c244ee140418c?anonymousKey=ff4f666340f86d140a0186e0d0594fb3ff755acd",
+            "success": true,
+            "run_directory": "",
+            "rule_report_link": "https://prover.certora.com/output/7749274/1fa25886021b4091a09c244ee140418c?anonymousKey=ff4f666340f86d140a0186e0d0594fb3ff755acd"
+        },
+        {
+            "gambit_mutant": {
+                "filename": "../mutations/fees_collector/contract-merged/contract_0.rs",
+                "original_filename": "../../fees_collector/src/contract.rs",
+                "directory": "../mutations/fees_collector/contract-merged",
+                "id": "contract_0",
+                "diff": "57c57\n<         AccessControl::new(&e).assert_address_has_role(&admin, &Role::Admin);\n---\n>         // AccessControl::new(&e).assert_address_has_role(&admin, &Role::Admin); MUTANT\n",
+                "description": "../mutations/fees_collector/contract-merged/contract_0.rs",
+                "name": "contract_0"
+            },
+            "link": "https://prover.certora.com/output/7749274/36e72e7f07aa4390996564affb8daedd?anonymousKey=40e54ae906a1754e573e5f44855a2ce73c7516a3",
+            "success": true,
+            "run_directory": "",
+            "rule_report_link": "https://prover.certora.com/output/7749274/36e72e7f07aa4390996564affb8daedd?anonymousKey=40e54ae906a1754e573e5f44855a2ce73c7516a3"
+        },
+        {
+            "gambit_mutant": {
+                "filename": "../mutations/fees_collector/contract-merged/contract_8.rs",
+                "original_filename": "../../fees_collector/src/contract.rs",
+                "directory": "../mutations/fees_collector/contract-merged",
+                "id": "contract_8",
+                "diff": "86c86\n<         revert_upgrade(&e);\n---\n>         // revert_upgrade(&e); MUTANT\n",
+                "description": "../mutations/fees_collector/contract-merged/contract_8.rs",
+                "name": "contract_8"
+            },
+            "link": "https://prover.certora.com/output/7749274/5f77b62994f04914b8cae4bd94caa0f0?anonymousKey=d6f013bf39023decb9e3e3bc8343b1d767459352",
+            "success": true,
+            "run_directory": "",
+            "rule_report_link": "https://prover.certora.com/output/7749274/5f77b62994f04914b8cae4bd94caa0f0?anonymousKey=d6f013bf39023decb9e3e3bc8343b1d767459352"
+        },
+        {
+            "gambit_mutant": {
+                "filename": "../mutations/fees_collector/contract-merged/contract_7.rs",
+                "original_filename": "../../fees_collector/src/contract.rs",
+                "directory": "../mutations/fees_collector/contract-merged",
+                "id": "contract_7",
+                "diff": "58c58\n<         commit_upgrade(&e, &new_wasm_hash);\n---\n>         // commit_upgrade(&e, &new_wasm_hash); MUTANT\n",
+                "description": "../mutations/fees_collector/contract-merged/contract_7.rs",
+                "name": "contract_7"
+            },
+            "link": "https://prover.certora.com/output/7749274/194f02d002844686b61fe0a2aef3195b?anonymousKey=12a06bb0a9c62176b33c1cf863b5f4ffccaad6f8",
+            "success": true,
+            "run_directory": "",
+            "rule_report_link": "https://prover.certora.com/output/7749274/194f02d002844686b61fe0a2aef3195b?anonymousKey=12a06bb0a9c62176b33c1cf863b5f4ffccaad6f8"
+        },
+        {
+            "gambit_mutant": {
+                "filename": "../mutations/fees_collector/contract-merged/contract_3.rs",
+                "original_filename": "../../fees_collector/src/contract.rs",
+                "directory": "../mutations/fees_collector/contract-merged",
+                "id": "contract_3",
+                "diff": "85c85\n<         AccessControl::new(&e).assert_address_has_role(&admin, &Role::Admin);\n---\n>         // AccessControl::new(&e).assert_address_has_role(&admin, &Role::Admin); MUTANT\n",
+                "description": "../mutations/fees_collector/contract-merged/contract_3.rs",
+                "name": "contract_3"
+            },
+            "link": "https://prover.certora.com/output/7749274/7b23b306ddd74c61ac3305c48a342eb3?anonymousKey=82409b3302211fc1ae2249ce33e35e8def812753",
+            "success": true,
+            "run_directory": "",
+            "rule_report_link": "https://prover.certora.com/output/7749274/7b23b306ddd74c61ac3305c48a342eb3?anonymousKey=82409b3302211fc1ae2249ce33e35e8def812753"
+        },
+        {
+            "gambit_mutant": {
+                "filename": "../mutations/fees_collector/contract-merged/contract_1.rs",
+                "original_filename": "../../fees_collector/src/contract.rs",
+                "directory": "../mutations/fees_collector/contract-merged",
+                "id": "contract_1",
+                "diff": "152c152\n<         access_control.assert_address_has_role(&admin, &Role::Admin);\n---\n>         // access_control.assert_address_has_role(&admin, &Role::Admin); MUTANT\n",
+                "description": "../mutations/fees_collector/contract-merged/contract_1.rs",
+                "name": "contract_1"
+            },
+            "link": "https://prover.certora.com/output/7749274/7b0437fda6ec42c7b623f902d4bab469?anonymousKey=0a43d458151666124bb82fedd73384fa2879aa84",
+            "success": true,
+            "run_directory": "",
+            "rule_report_link": "https://prover.certora.com/output/7749274/7b0437fda6ec42c7b623f902d4bab469?anonymousKey=0a43d458151666124bb82fedd73384fa2879aa84"
+        },
+        {
+            "gambit_mutant": {
+                "filename": "../mutations/upgrade/lib-merged/lib_2.rs",
+                "original_filename": "../../upgrade/src/lib.rs",
+                "directory": "../mutations/upgrade/lib-merged",
+                "id": "lib_2",
+                "diff": "41c41\n<     put_upgrade_deadline(e, &0);\n---\n>     // put_upgrade_deadline(e, &0); MUTANT\n",
+                "description": "../mutations/upgrade/lib-merged/lib_2.rs",
+                "name": "lib_2"
+            },
+            "link": "https://prover.certora.com/output/7749274/f82e40e8f00049368c89136659b5584a?anonymousKey=f6dade19133803d2b004fc6fbcbe196a30dddc1e",
+            "success": true,
+            "run_directory": "",
+            "rule_report_link": "https://prover.certora.com/output/7749274/f82e40e8f00049368c89136659b5584a?anonymousKey=f6dade19133803d2b004fc6fbcbe196a30dddc1e"
+        },
+        {
+            "gambit_mutant": {
+                "filename": "../mutations/upgrade/lib-merged/lib_1.rs",
+                "original_filename": "../../upgrade/src/lib.rs",
+                "directory": "../mutations/upgrade/lib-merged",
+                "id": "lib_1",
+                "diff": "27c27\n<     put_upgrade_deadline(e, &deadline);\n---\n>     // put_upgrade_deadline(e, &deadline); MUTANT\n",
+                "description": "../mutations/upgrade/lib-merged/lib_1.rs",
+                "name": "lib_1"
+            },
+            "link": "https://prover.certora.com/output/7749274/dae23e2bb465479ca3708517ae239171?anonymousKey=c1f693af018791adf2314fc36477e8429fbc11ba",
+            "success": true,
+            "run_directory": "",
+            "rule_report_link": "https://prover.certora.com/output/7749274/dae23e2bb465479ca3708517ae239171?anonymousKey=c1f693af018791adf2314fc36477e8429fbc11ba"
+        },
+        {
+            "gambit_mutant": {
+                "filename": "../mutations/upgrade/lib-merged/lib_0.rs",
+                "original_filename": "../../upgrade/src/lib.rs",
+                "directory": "../mutations/upgrade/lib-merged",
+                "id": "lib_0",
+                "diff": "26c26\n<     let deadline = e.ledger().timestamp() + UPGRADE_DELAY;\n---\n>     let deadline = 0; // MUTANT: e.ledger().timestamp() + UPGRADE_DELAY;\n",
+                "description": "../mutations/upgrade/lib-merged/lib_0.rs",
+                "name": "lib_0"
+            },
+            "link": "https://prover.certora.com/output/7749274/26080a2a0008494181ab9f67928c4b85?anonymousKey=b119311adadd3b60604b45c08570467c41e87703",
+            "success": true,
+            "run_directory": "",
+            "rule_report_link": "https://prover.certora.com/output/7749274/26080a2a0008494181ab9f67928c4b85?anonymousKey=b119311adadd3b60604b45c08570467c41e87703"
+        }
+    ]
+}
