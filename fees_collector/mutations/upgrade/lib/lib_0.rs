@@ -1,10 +1,13 @@
 #![no_std]
 
-pub mod constants;
+mod constants;
 mod errors;
 pub mod events;
 pub mod interface;
+#[cfg(feature = "certora")]
 pub mod storage;
+#[cfg(not(feature = "certora"))]
+mod storage;
 
 use crate::constants::UPGRADE_DELAY;
 use crate::errors::Error;

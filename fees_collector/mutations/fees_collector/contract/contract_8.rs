@@ -13,9 +13,6 @@ use upgrade::events::Events as UpgradeEvents;
 use upgrade::interface::UpgradeableContract;
 use upgrade::{apply_upgrade, commit_upgrade, revert_upgrade};
 
-#[cfg(feature = "certora")]
-use crate::certora_specs::ACCESS_CONTROL;
-
 #[contract]
 pub struct FeesCollector;
 
@@ -32,10 +29,6 @@ impl AdminInterface for FeesCollector {
             panic_with_error!(&e, AccessControlError::AdminAlreadySet);
         }
         access_control.set_role_address(&Role::Admin, &account);
-        #[cfg(feature = "certora")]
-        unsafe {
-            ACCESS_CONTROL = Some(access_control.clone());
-        }
     }
 }
 
@@ -112,10 +105,6 @@ impl UpgradeableContract for FeesCollector {
             to enable assigning to a ghost variable for verification.
          */
         let access_control = AccessControl::new(&e);
-        #[cfg(feature = "certora")]
-        unsafe {
-            ACCESS_CONTROL = Some(access_control.clone());
-        }
         access_control.assert_address_has_role(&emergency_admin, &Role::EmergencyAdmin);
         set_emergency_mode(&e, &value);
         AccessControlEvents::new(&e).set_emergency_mode(value);
