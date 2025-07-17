@@ -13,6 +13,9 @@ use upgrade::events::Events as UpgradeEvents;
 use upgrade::interface::UpgradeableContract;
 use upgrade::{apply_upgrade, commit_upgrade, revert_upgrade};
 
+#[cfg(feature = "certora")]
+use crate::certora_specs::ACCESS_CONTROL;
+
 #[contract]
 pub struct FeesCollector;
 
@@ -29,6 +32,10 @@ impl AdminInterface for FeesCollector {
             panic_with_error!(&e, AccessControlError::AdminAlreadySet);
         }
         access_control.set_role_address(&Role::Admin, &account);
+        #[cfg(feature = "certora")]
+        unsafe {
+            ACCESS_CONTROL = Some(access_control.clone());
+        }
     }
 }
 
@@ -105,6 +112,10 @@ impl UpgradeableContract for FeesCollector {
             to enable assigning to a ghost variable for verification.
          */
         let access_control = AccessControl::new(&e);
+        #[cfg(feature = "certora")]
+        unsafe {
+            ACCESS_CONTROL = Some(access_control.clone());
+        }
         access_control.assert_address_has_role(&emergency_admin, &Role::EmergencyAdmin);
         set_emergency_mode(&e, &value);
         AccessControlEvents::new(&e).set_emergency_mode(value);
@@ -112,7 +123,7 @@ impl UpgradeableContract for FeesCollector {
 
     // Returns the emergency mode flag value.
     fn get_emergency_mode(e: Env) -> bool {
-        false // MUTANT: always returns false, changed from `get_emergency_mode(&e)`
+        get_emergency_mode(&e)
     }
 }
 
@@ -131,7 +142,7 @@ impl TransferableContract for FeesCollector {
     fn commit_transfer_ownership(e: Env, admin: Address, role_name: Symbol, new_address: Address) {
         admin.require_auth();
         let access_control = AccessControl::new(&e);
-        access_control.assert_address_has_role(&admin, &Role::Admin);
+        // access_control.assert_address_has_role(&admin, &Role::Admin); MUTANT
 
         let role = Role::from_symbol(&e, role_name);
         access_control.commit_transfer_ownership(&role, &new_address);

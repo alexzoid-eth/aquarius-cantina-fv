@@ -13,6 +13,9 @@ use upgrade::events::Events as UpgradeEvents;
 use upgrade::interface::UpgradeableContract;
 use upgrade::{apply_upgrade, commit_upgrade, revert_upgrade};
 
+#[cfg(feature = "certora")]
+use crate::certora_specs::ACCESS_CONTROL;
+
 #[contract]
 pub struct FeesCollector;
 
@@ -29,6 +32,10 @@ impl AdminInterface for FeesCollector {
             panic_with_error!(&e, AccessControlError::AdminAlreadySet);
         }
         access_control.set_role_address(&Role::Admin, &account);
+        #[cfg(feature = "certora")]
+        unsafe {
+            ACCESS_CONTROL = Some(access_control.clone());
+        }
     }
 }
 
@@ -54,7 +61,7 @@ impl UpgradeableContract for FeesCollector {
     // * `new_wasm_hash` - The new wasm hash to commit.
     fn commit_upgrade(e: Env, admin: Address, new_wasm_hash: BytesN<32>) {
         admin.require_auth();
-        // AccessControl::new(&e).assert_address_has_role(&admin, &Role::Admin); MUTANT
+        AccessControl::new(&e).assert_address_has_role(&admin, &Role::Admin);
         commit_upgrade(&e, &new_wasm_hash);
         UpgradeEvents::new(&e).commit_upgrade(Vec::from_array(&e, [new_wasm_hash.clone()]));
     }
@@ -105,6 +112,10 @@ impl UpgradeableContract for FeesCollector {
             to enable assigning to a ghost variable for verification.
          */
         let access_control = AccessControl::new(&e);
+        #[cfg(feature = "certora")]
+        unsafe {
+            ACCESS_CONTROL = Some(access_control.clone());
+        }
         access_control.assert_address_has_role(&emergency_admin, &Role::EmergencyAdmin);
         set_emergency_mode(&e, &value);
         AccessControlEvents::new(&e).set_emergency_mode(value);
@@ -170,7 +181,7 @@ impl TransferableContract for FeesCollector {
         access_control.assert_address_has_role(&admin, &Role::Admin);
 
         let role = Role::from_symbol(&e, role_name);
-        access_control.revert_transfer_ownership(&role);
+        // access_control.revert_transfer_ownership(&role); MUTANT
         AccessControlEvents::new(&e).revert_transfer_ownership(role);
     }
 
