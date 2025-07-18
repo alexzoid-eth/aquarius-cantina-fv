@@ -7,3 +7,4 @@ test_snapshots
 **/.certora_internal/*
 **/.cargo/
 CLAUDE.md
+collect.json
